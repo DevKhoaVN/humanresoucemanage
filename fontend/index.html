@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+  <title>Quản lý nhân sự</title>
+</head>
+<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-6">
+
+  <!-- PHẦN TIÊU ĐỀ -->
+  <div class="text-center mb-10">
+    <h1 class="text-4xl font-bold text-gray-800 mb-3">
+      Hệ thống quản lý nhân sự
+    </h1>
+
+    <h4 class="text-gray-500 text-lg mb-6 max-w-2xl mx-auto">
+      Quản lý toàn diện nhân sự, phòng ban, hiệu suất và lương bổng một cách hiện đại và toàn diện
+    </h4>
+
+    <div class="space-x-4">
+      <button onclick="window.location.href='auth/login.html'" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2 rounded-lg shadow">
+        Đăng nhập
+      </button>
+
+      <button onclick="window.location.href= 'auth/register.html'" class="hover:bg-gray-400 text-gray-800 font-semibold px-5 py-2 rounded-lg shadow" >
+        Đăng ký
+      </button>
+    </div>
+  </div>
+
+  <!-- PHẦN MODULE GRID -->
+  <div class="w-full max-w-6xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    
+    <!-- 1. Nhân sự -->
+    <div class="bg-white rounded-xl shadow hover:shadow-lg p-6 text-center transition duration-200">
+      <i class="fa-solid fa-users text-blue-600 text-4xl mb-3"></i>
+      <h3 class="text-xl font-semibold mb-2">Quản lý nhân sự</h3>
+      <p class="text-gray-500 text-sm">Quản lý thông tin nhân viên, hợp đồng, chức vụ,...</p>
+    </div>
+
+    <!-- 2. Phòng ban -->
+    <div class="bg-white rounded-xl shadow hover:shadow-lg p-6 text-center transition duration-200">
+      <i class="fa-solid fa-building text-green-600 text-4xl mb-3"></i>
+      <h3 class="text-xl font-semibold mb-2">Quản lý phòng ban</h3>
+      <p class="text-gray-500 text-sm">Theo dõi, sắp xếp và phân quyền theo từng phòng ban.</p>
+    </div>
+
+    <!-- 3. Vị trí -->
+    <div class="bg-white rounded-xl shadow hover:shadow-lg p-6 text-center transition duration-200">
+      <i class="fa-solid fa-briefcase text-yellow-500 text-4xl mb-3"></i>
+      <h3 class="text-xl font-semibold mb-2">Quản lý vị trí</h3>
+      <p class="text-gray-500 text-sm">Phân cấp và xác định chức danh công việc.</p>
+    </div>
+
+    <!-- 4. Lương -->
+    <div class="bg-white rounded-xl shadow hover:shadow-lg p-6 text-center transition duration-200">
+      <i class="fa-solid fa-money-bill-wave text-emerald-600 text-4xl mb-3"></i>
+      <h3 class="text-xl font-semibold mb-2">Quản lý lương</h3>
+      <p class="text-gray-500 text-sm">Theo dõi bảng lương, thưởng, phụ cấp và khấu trừ.</p>
+    </div>
+
+    <!-- 5. Nghỉ phép -->
+    <div class="bg-white rounded-xl shadow hover:shadow-lg p-6 text-center transition duration-200">
+      <i class="fa-solid fa-calendar-days text-purple-600 text-4xl mb-3"></i>
+      <h3 class="text-xl font-semibold mb-2">Quản lý nghỉ phép</h3>
+      <p class="text-gray-500 text-sm">Phê duyệt và theo dõi lịch nghỉ của nhân viên.</p>
+    </div>
+
+    <!-- 6. Đánh giá hiệu suất -->
+    <div class="bg-white rounded-xl shadow hover:shadow-lg p-6 text-center transition duration-200">
+      <i class="fa-solid fa-chart-line text-orange-500 text-4xl mb-3"></i>
+      <h3 class="text-xl font-semibold mb-2">Đánh giá hiệu suất</h3>
+      <p class="text-gray-500 text-sm">Theo dõi KPI và kết quả đánh giá nhân viên.</p>
+    </div>
+
+    <!-- 7. Tài khoản -->
+    <div class="bg-white rounded-xl shadow hover:shadow-lg p-6 text-center transition duration-200">
+      <i class="fa-solid fa-user-shield text-indigo-600 text-4xl mb-3"></i>
+      <h3 class="text-xl font-semibold mb-2">Quản lý tài khoản</h3>
+      <p class="text-gray-500 text-sm">Tạo, phân quyền và bảo mật tài khoản nhân viên.</p>
+    </div>
+
+    <!-- 8. Chấm công -->
+    <div class="bg-white rounded-xl shadow hover:shadow-lg p-6 text-center transition duration-200">
+      <i class="fa-solid fa-clock text-cyan-600 text-4xl mb-3"></i>
+      <h3 class="text-xl font-semibold mb-2">Quản lý chấm công</h3>
+      <p class="text-gray-500 text-sm">Theo dõi giờ làm, ca trực và công nhật của nhân viên.</p>
+    </div>
+
+    <!-- 9. Báo cáo thống kê -->
+    <div class="bg-white rounded-xl shadow hover:shadow-lg p-6 text-center transition duration-200">
+      <i class="fa-solid fa-chart-pie text-pink-600 text-4xl mb-3"></i>
+      <h3 class="text-xl font-semibold mb-2">Báo cáo & Thống kê</h3>
+      <p class="text-gray-500 text-sm">Phân tích dữ liệu, xuất báo cáo chi tiết theo module.</p>
+    </div>
+
+  </div>
+
+</body>
+</html>

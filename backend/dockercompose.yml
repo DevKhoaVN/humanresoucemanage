@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  app:
+    image: php:8.2-apache
+    container_name: apache_server
+    ports:
+      - "63342:80"
+    volumes:
+      - .:/var/www/html
+    working_dir: /var/www/html
+    depends_on:
+      - mysql
+    environment:
+      - DB_NAME=humanresource
+      - DB_USER=user
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_PASSWORD=123456
+    command: bash -c "docker-php-ext-install mysqli pdo pdo_mysql && apache2-foreground"
+    networks:
+      - contact_network
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_server
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: contact
+      MYSQL_USER: user
+      MYSQL_PASSWORD: 123456
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - contact_network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin_ui
+    restart: always
+    depends_on:
+      - mysql
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: root
+      PMA_PASSWORD: 123456
+    ports:
+      - "8081:80"
+    networks:
+      - contact_network
+volumes:
+  mysql_data:
+
+networks:
+  contact_network:
