@@ -1,14 +1,8 @@
 <?php
 namespace config;
 
-require_once __DIR__ .'/../utils/Logger.php';
-require_once __DIR__ . '/../exception/CustomException.php';
-require_once __DIR__ . '/../exception/ErrorCode.php';
 use PDO;
 use PDOException;
-use exception\DatabaseException;
-
-use utils\Logger;
 
 class INITDB
 {
@@ -23,20 +17,18 @@ class INITDB
 
     private function __construct()
     {
-        $logger = Logger::getInstance();
-
         try {
 
-            $logger->info("Database connecting...");
+
             $dsn = "mysql:host={$this->host};dbname={$this->dbName};port={$this->port};charset=utf8mb4";
 
             $this->conn = new PDO($dsn, $this->username, $this->password);
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $logger->info("Database connected.");
+           echo "Database connected.";
 
         } catch (PDOException $e) {
-            throw new DatabaseException("Database connection failed: " . $e->getMessage());
+            throw new PDOException("Database connection failed: " . $e->getMessage());
         }
     }
 

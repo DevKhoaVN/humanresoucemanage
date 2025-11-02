@@ -9,11 +9,13 @@ use PDOException;
 
 Abstract class BaseModel
 {
-  protected static string $tableName;
+  protected static string $tableName = '';
 
   public static function findById(int $id): ?static
   {
-      $pdo = INITDB::class->getConnection();
+      $pdo = INITDB::getInstance()->getConnection();
+
+
 
       $stmt = $pdo->prepare("SELECT * FROM " . static::$tableName . " WHERE id = :id");
       $stmt->execute(['id' => $id]);
@@ -23,7 +25,7 @@ Abstract class BaseModel
       return $result ? static::maptoObject($result) : null;
   }
 
-  pubic static  function FindAll(): ?static {
+  public static  function FindAll(): ?static {
       $pdo = INITDB::class->getConnection();
       $stmt = $pdo->prepare("SELECT * FROM ". self::$tableName);
       $stmt->execute();
@@ -32,53 +34,68 @@ Abstract class BaseModel
       return $result;
   }
 
-  public  static function Where (string $colum , string $value , bool $option = false): ?self{
+    public static function Where(string $column, string $value, bool $option = false): ?static
+    {
 
-      $pdo = INITDB::getInstance()->getConnection();
 
-      if($option){
-          $query = "SELECT * FROM " . self::$tableName . " WHERE $colum LIKE :value";
-          $value = "%$value%";
-      }else{
-          $query = "SELECT * FROM " . self::$tableName . " WHERE $colum = :value";
-      }
+        $pdo = INITDB::getInstance()->getConnection();
 
-      $stmt = $pdo->prepare($query);
+        if ($option) {
+            $query = "SELECT * FROM " . static::$tableName . " WHERE $column LIKE :value";
+            $value = "%$value%";
+        } else {
+            $query = "SELECT * FROM " . static::$tableName . " WHERE $column = :value";
+        }
 
-      $stmt->execute([
-          'value' => $value
-      ]);
+        try {
+            $stmt = $pdo->prepare($query);
+            $stmt->execute(['value' => $value]);
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
 
-      $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-      return $result ? static::maptoObject($result) : [];
-  }
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-  public function save() : bool
-  {
-      $pdo = INITDB::class->getConnection();
-      $fields = get_object_vars($this);
-      $colum = array_keys($fields);
 
-      // check if id exist : action - update <> action - insert
-      if (isset($this->id)) {
-          $query = "UPDATE" . self::$tableName . " SET" . implode(",", array_map(fn($col) => "$col = :$col", $colum));
-      } else {
-          $query = "INSERT INTO" . self::$tableName ."VALUES". implode(",", array_map(fn($col) => "$col = :$col", $colum));
-      }
+        return $result ? static::mapToObject($result) : null;
+    }
 
-      $stmt = $pdo->prepare($query);
-      $success = $stmt->execute($fields);
 
-      // Gán id sau khi insert
-      if ($success && !isset($this->id)) {
-          $this->id = $pdo->lastInsertId();
-      }
+    public function save(): bool
+    {
+        $pdo = INITDB::getInstance()->getConnection();
+        $fields = $this->toArray();
+        $columns = array_keys($fields);
 
-      return $success;
-  }
+        if (isset($this->getId) && $this->getId> 0) {
+            // update
+            $setClause = implode(", ", array_map(fn($col) => "$col = :$col", $columns));
+            $query = "UPDATE " . static::$tableName . " SET " . $setClause . " WHERE id = :id";
+        } else {
+            // insert
+            $colNames = implode(", ", $columns);
+            $placeholders = implode(", ", array_map(fn($col) => ":$col", $columns));
+            $query = "INSERT INTO " . static::$tableName . " ($colNames) VALUES ($placeholders)";
+        }
 
-  public static function deleteById(int $id):bool  {
+        try {
+            $stmt = $pdo->prepare($query);
+            $success = $stmt->execute($fields);
+        } catch (\PDOException $e) {
+            die("Query failed: " . $query);
+        }
+
+        // Gán id sau khi INSERT
+        if ($success && (!isset($this->getId) || $this->getId== 0)) {
+            $this->getId = $pdo->lastInsertId();
+        }
+
+        return $success;
+    }
+
+
+    public static function deleteById(int $id):bool  {
       try {
           $pdo = INITDB::getInstance()->getConnection();
           $query = "DELETE FROM ". self::$tableName . "WHERE id = :id";
@@ -92,14 +109,28 @@ Abstract class BaseModel
 
 }
 
-  private static function maptoObject(array $array){
-      $object = new static();
-      foreach($array as $key => $value){
-          $object->$key = $value;
-      }
+    public static function mapToObject(array $data)
+    {
+        $obj = new static();
 
-      return $object;
-  }
+        foreach ($data as $key => $value) {
+            $method = 'set' . str_replace('_', '', ucwords($key, '_'));
+
+            if (method_exists($obj, $method)) {
+                // Nếu có setter thì gọi
+                if (str_contains($key, 'date') || str_contains($key, 'create_at')) {
+                    try {
+                        $value = new \DateTime($value);
+                    } catch (\Exception $e) {}
+                }
+                $obj->$method($value);
+            }
+        }
+
+        return $obj;
+    }
+
+
 
 
 

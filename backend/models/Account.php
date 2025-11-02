@@ -2,43 +2,64 @@
 
 namespace models;
 
+use DateTime;
+
+require_once __DIR__ . "/BaseModel.php";
 class Account extends BaseModel
 {
     protected static string $tableName = 'account';
     private int  $id;
     private $username;
     private $hash_password;
-    private $email;
     private $role;
-
-    private $status;
+    private $is_active;
+    private ?DateTime $create_at;
 
     /**
-     * @param int $id
-     * @param $username
-     * @param $hash_password
-     * @param $email
+     * @param DateTime $create_at
+     * @param $is_active
      * @param $role
-     * @param $status
+     * @param $hash_password
+     * @param $username
+     * @param int $id
      */
-    public function __construct(?int $id, $username, $hash_password, $email, $role, $status)
+//    public function __construct(DateTime $create_at, $is_active, $role, $hash_password, $username, int $id)
+//    {
+//        $this->create_date = $create_at;
+//        $this->is_active = $is_active;
+//        $this->role = $role;
+//        $this->hash_password = $hash_password;
+//        $this->username = $username;
+//        $this->id = $id;
+//    }
+    public function __construct()
     {
-        $this->id = $id;
-        $this->username = $username;
-        $this->hash_password = $hash_password;
-        $this->email = $email;
-        $this->role = $role;
-        $this->status = $status;
+        $this->create_at = new \DateTime(); // mặc định là thời điểm hiện tại
     }
 
-    public static  function mapToObject(array $array): Account{
-        $account = new Account();
-        $account->setEmail($array['email']);
-        $account->setUsername($array['username']);
-        $account->setHashPassword($array['hash_password']);
-        $account->setRole($array['role']);
-        $account->setStatus($array['status']);
-        return $account;
+
+
+    public function toArray(): array
+    {
+        return [
+            'username' => $this->getUsername(),
+            'passwordhash' => $this->getHashPassword(),
+            'role' => $this->getRole(),
+            'is_active' => $this->getIsActive(),
+            'create_at' => $this->getCreateAt() instanceof \DateTime
+                ? $this->getCreateAt()->format('Y-m-d')
+                : $this->getCreateAt()
+        ];
+    }
+
+    public function getCreateAt(): ?DateTime
+    {
+        return $this->create_at;
+    }
+
+    public function setCreateAt(?DateTime $create_at): void
+    {
+        $this->create_at = $create_at;
     }
 
 
@@ -46,24 +67,36 @@ class Account extends BaseModel
         return Employee::findById($this->id);
     }
 
-    public function getId(): int
+    /**
+     * @return mixed
+     */
+    public function getIsActive()
     {
-        return $this->id;
+        return $this->is_active;
     }
 
-    public function setId(int $id): void
+    /**
+     * @param mixed $is_active
+     */
+    public function setIsActive($is_active): void
     {
-        $this->id = $id;
+        $this->is_active = $is_active;
     }
 
-    public function getUsername(): mixed
+    /**
+     * @return mixed
+     */
+    public function getRole()
     {
-        return $this->username;
+        return $this->role;
     }
 
-    public function setUsername(mixed $username): void
+    /**
+     * @param mixed $role
+     */
+    public function setRole($role): void
     {
-        $this->username = $username;
+        $this->role = $role;
     }
 
     /**
@@ -82,42 +115,31 @@ class Account extends BaseModel
         $this->hash_password = $hash_password;
     }
 
-    public function getEmail(): mixed
-    {
-        return $this->email;
-    }
-
-    public function setEmail(mixed $email): void
-    {
-        $this->email = $email;
-    }
-
-    public function getRole(): mixed
-    {
-        return $this->role;
-    }
-
-    public function setRole(mixed $role): void
-    {
-        $this->role = $role;
-    }
-
     /**
      * @return mixed
      */
-    public function getStatus()
+    public function getUsername()
     {
-        return $this->status;
+        return $this->username;
     }
 
     /**
-     * @param mixed $status
+     * @param mixed $username
      */
-    public function setStatus($status): void
+    public function setUsername($username): void
     {
-        $this->status = $status;
+        $this->username = $username;
     }
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
 
 
 }
