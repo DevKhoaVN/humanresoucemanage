@@ -34,14 +34,14 @@ Abstract class BaseModel
           $stmt->execute();
           $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-
+         echo "reuslt : ".var_dump($result);
           return $result;
       } catch (\PDOException $e) {
           die("Query failed: " . $e->getMessage());
       }
   }
 
-    public static function Where(string $column, string $value, bool $option = false): ?static
+    public static function Where(string $column, string $value, bool $option = false): array
     {
 
 
@@ -62,10 +62,10 @@ Abstract class BaseModel
         }
 
 
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+         $option ?$result = $stmt->fetchAll(PDO::FETCH_ASSOC) :  $result = $stmt->fetch(PDO::FETCH_ASSOC);
+         echo " result ; ".var_dump($result);
 
-
-        return $result ? static::mapToObject($result) : null;
+        return $result ? static::mapToObject($result) : [];
     }
 
 
@@ -88,7 +88,6 @@ Abstract class BaseModel
             $placeholders = implode(", ", array_map(fn($col) => ":$col", $columns));
             $query = "INSERT INTO " . static::$tableName . " ($colNames) VALUES ($placeholders)";
         }
-
         echo"filed".var_dump($fields);
 
         try {

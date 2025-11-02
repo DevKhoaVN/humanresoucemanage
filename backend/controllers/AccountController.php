@@ -55,7 +55,6 @@ class AccountController
             $infor =  Account::mapToObject($data);
             $infor->setCreateAt(null);
 
-            echo "dât : ". var_dump($infor);
             $result = $this->accountService->updateAccount($infor);
             http_response_code(200);
             echo json_encode($result);
@@ -80,30 +79,30 @@ class AccountController
 
     }
 
-    public function  enableRole($id){
-      header('Content-Type: application/json');
-
-        try {
-            $result = $this->accountService->eanbleRole($id);
-            http_response_code(200);
-            echo json_encode($result);
-        } catch (\Exception $e) {
-            http_response_code(500);
-            echo json_encode(['error : ' => $e->getMessage()]);
-        }
-    }
-    public function  disableRole($id){
-        header('Content-Type: application/json');
-
-        try {
-            $result = $this->accountService->disableRole($id);
-            http_response_code(200);
-            echo json_encode($result);
-        } catch (\Exception $e) {
-            http_response_code(500);
-            echo json_encode(['error : ' => $e->getMessage()]);
-        }
-    }
+//    public function  enableRole($id){
+//      header('Content-Type: application/json');
+//
+//        try {
+//            $result = $this->accountService->eanbleRole($id);
+//            http_response_code(200);
+//            echo json_encode($result);
+//        } catch (\Exception $e) {
+//            http_response_code(500);
+//            echo json_encode(['error : ' => $e->getMessage()]);
+//        }
+//    }
+//    public function  disableRole($id){
+//        header('Content-Type: application/json');
+//
+//        try {
+//            $result = $this->accountService->disableRole($id);
+//            http_response_code(200);
+//            echo json_encode($result);
+//        } catch (\Exception $e) {
+//            http_response_code(500);
+//            echo json_encode(['error : ' => $e->getMessage()]);
+//        }
+//    }
 
 
 }
