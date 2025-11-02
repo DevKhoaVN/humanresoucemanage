@@ -1,53 +1,71 @@
 <?php
+require_once __DIR__.'/../services/AuthencationService.php';
+require_once __DIR__.'/../helper/RequestHelper.php';
 
 use services\AuthencationService;
-use Helper\RequestHelper;
+use helper\RequestHelper;
 class AuthencationController
 {
     private  AuthencationService $authencationService;
 
-    private function __construct()
+    public function __construct()
     {
         $this->authencationService = new AuthencationService();
     }
 
-  public function login(){
+    public function login(){
 
-      header('Content-Type: application/json');
+        header('Content-Type: application/json');
 
-      try {
+        try {
+            $data = RequestHelper::getJsonBody();
+            $email = $data['email'];
+            $password = $data['password'];
 
+            $response = $this->authencationService->login($email, $password);
+            http_response_code(200);
+            echo json_encode($response);
+
+        }catch (InvalidArgumentException $e){
+            http_response_code(400);
+            echo json_encode([
+                'code' => 400,
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ]);
+        }catch (Exception $e){
+            http_response_code(500);
+            echo json_encode([
+                'code' => 500,
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ]);
+        }
+
+    }
+
+
+   public function  register()
+   {
+
+       try {
            $data = RequestHelper::getJsonBody();
-           $email = $data['email'];
+           $username = $data['username'];
            $password = $data['password'];
 
-          $response = $this->authencationService->login($email, $password);
-          http_response_code(200);
-          echo json_encode($response);
+           $response = $this->authencationService->register($username, $password);
+           echo json_encode($response);
 
-      }catch (InvalidArgumentException $e){
-          http_response_code(400);
-          echo json_encode([
-              'code' => 400,
-              'status' => 'error',
-              'message' => $e->getMessage()
-          ]);
-      }catch (Exception $e){
+       } catch (Exception $e) {
+           http_response_code(500);
+           echo json_encode([
+               'code' => 500,
+               'status' => 'error',
+               'message' => $e->getMessage()
+           ]);
+       }
 
-          http_response_code(500);
-          echo json_encode([
-              'code' => 500,
-              'status' => 'error',
-              'message' => 'Authencation  service error'
-          ]);
-      }
-
-  }
-
-  public function Register()
-  {
-
-  }
+   }
   public function logout()
   {
 

@@ -2,20 +2,33 @@
 
 namespace models;
 
+use Cassandra\Date;
+
+require_once __DIR__ . "/BaseModel.php";
 class Employee extends BaseModel
 {
     protected static string $tableName = 'employee';
     private int $id;
     private string $full_name;
     private int $phone;
+
+
     private string $email;
+    private string $address;
 
-   private bool $active;
-
+   private \DateTime $create_at;
    private int $position_id;
 
-    public function __construct(){}
-
+    public function __construct(int $id, string $full_name, int $phone, string $email, string $address, \DateTime $create_at, int $position_id)
+    {
+        $this->id = $id;
+        $this->full_name = $full_name;
+        $this->phone = $phone;
+        $this->email = $email;
+        $this->address = $address;
+        $this->create_at = $create_at;
+        $this->position_id = $position_id;
+    }
 
     public function position() : ?Position{
         return Position::findById($this->position_id);
@@ -71,17 +84,35 @@ class Employee extends BaseModel
         $this->email = $email;
     }
 
-    public function isActive(): bool
+    public function getAddress(): string
     {
-        return $this->active;
+        return $this->address;
     }
 
-    public function setActive(bool $active): void
+    public function setAddress(string $address): void
     {
-        $this->active = $active;
+        $this->address = $address;
     }
 
+    public function getCreateAt(): \DateTime
+    {
+        return $this->create_at;
+    }
 
+    public function setCreateAt(\DateTime $create_at): void
+    {
+        $this->create_at = $create_at;
+    }
+
+    public function getPositionId(): int
+    {
+        return $this->position_id;
+    }
+
+    public function setPositionId(int $position_id): void
+    {
+        $this->position_id = $position_id;
+    }
 
 
 }

@@ -1,39 +1,40 @@
 <?php
 
-$logger = \utils\Logger::getInstance();
 
-$url = isset($_GET['url']) ? $_GET['url'] : null;
+$url = isset($_GET['url']) ? $_GET['url'] : 'index';
 $urlPaths = explode('/',  trim($url,'/'));
+echo $url;
 
 
 $controllerName = ucfirst($urlPaths[0]).'Controller';
-$actionName = isset($urlPaths[1]) ? $urlPaths[1] : 'index';
+$actionName =  trim(isset($urlPaths[1]) ? $urlPaths[1] : 'index');
 
 
 $controllerFile = __DIR__.'/controllers/'.$controllerName.'.php';
 
-
-echo "controllername : ".$controllerFile."<br>"  ;
+echo "filename". $controllerName;
 
 try {
     // check controller file
     if(file_exists($controllerFile)) {
 
-
-        $logger->info("Loading controller: ".$controllerName);
-
         require_once $controllerFile;
+
         $controller = new $controllerName();
+
 
         // check method exist
         if(method_exists($controller, $actionName)) {
             $controller->$actionName();
+        }else{
+            echo "Action $actionName not exist";
         }
-        $logger->info("Action: ".$actionName);
 
+    }else{
+        echo "controller $controllerName not exist";
     }
 }catch (Exception $e) {
-    $logger->error($e->getMessage());
+   throw new Exception($e->getMessage());
 }
 
 ?>
