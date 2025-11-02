@@ -42,6 +42,7 @@ class Account extends BaseModel
     public function toArray(): array
     {
         return [
+            "id" => $this->getId(),
             'username' => $this->getUsername(),
             'passwordhash' => $this->getHashPassword(),
             'role' => $this->getRole(),

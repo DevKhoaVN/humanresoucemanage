@@ -12,7 +12,7 @@ $actionName =  trim(isset($urlPaths[1]) ? $urlPaths[1] : 'index');
 
 $controllerFile = __DIR__.'/controllers/'.$controllerName.'.php';
 
-
+echo "filename". $controllerName;
 
 try {
     // check controller file
@@ -21,9 +21,6 @@ try {
         require_once $controllerFile;
 
         $controller = new $controllerName();
-
-        echo 'controller' . var_dump(get_class_methods($controller));
-        echo 'action : '. $actionName;
 
 
         // check method exist
