@@ -34,7 +34,7 @@ class Account extends BaseModel
 //    }
     public function __construct()
     {
-        $this->create_at = new \DateTime(); // mặc định là thời điểm hiện tại
+        $this->create_at = new \DateTime();
     }
 
 

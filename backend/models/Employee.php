@@ -8,28 +8,33 @@ require_once __DIR__ . "/BaseModel.php";
 class Employee extends BaseModel
 {
     protected static string $tableName = 'employee';
-    private int $id;
-    private string $full_name;
-    private int $phone;
+    private ?int $id = null;
+    private  $fullname;
+    private  $phone;
 
-
-    private string $email;
-    private string $address;
+    private  $email;
+    private  $address;
 
    private \DateTime $create_at;
-   private int $position_id;
+   private  $position_id;
 
-    public function __construct(int $id, string $full_name, int $phone, string $email, string $address, \DateTime $create_at, int $position_id)
+    public function __construct()
     {
-        $this->id = $id;
-        $this->full_name = $full_name;
-        $this->phone = $phone;
-        $this->email = $email;
-        $this->address = $address;
-        $this->create_at = $create_at;
-        $this->position_id = $position_id;
+        $this->create_at = new \DateTime();
     }
 
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'fullname'=> $this->getFullname(),
+            'address' => $this->getAddress(),
+            'email' => $this->getEmail(),
+            "phone" => $this->getPhone(),
+            'position_id' => $this->getPositionId(),
+        ];
+    }
     public function position() : ?Position{
         return Position::findById($this->position_id);
 
@@ -44,7 +49,17 @@ class Employee extends BaseModel
         return Leaves::Where("employee_id",$this->id);
     }
 
-    public function getId(): int
+    public function getIsActive(): bool
+    {
+        return $this->is_active;
+    }
+
+    public function setIsActive(bool $is_active): void
+    {
+        $this->is_active = $is_active;
+    }
+
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -54,15 +69,17 @@ class Employee extends BaseModel
         $this->id = $id;
     }
 
-    public function getFullName(): string
+    public function getFullname(): string
     {
-        return $this->full_name;
+        return $this->fullname;
     }
 
-    public function setFullName(string $full_name): void
+    public function setFullname(string $fullname): void
     {
-        $this->full_name = $full_name;
+        $this->fullname = $fullname;
     }
+
+
 
     public function getPhone(): int
     {
