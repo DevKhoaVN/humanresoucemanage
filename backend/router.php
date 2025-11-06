@@ -1,7 +1,7 @@
 <?php
 
 // === CORS headers ===
-$allowed_origins = ['http://localhost:5500', 'http://127.0.0.1:5500'];
+$allowed_origins = ['http://localhost:5500', 'https://quanlinhansu.infinityfreeapp.com'];
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 
 if (in_array($origin, $allowed_origins)) {
