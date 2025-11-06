@@ -11,32 +11,33 @@ use models\Account;
 class AuthencationService
 {
 
-    public function login(string $username, string $password): array
+    public function login(string $username, string $password)
     {
+
 
         if (empty($username) || empty($password)) {
             throw new \Exception("username and password are required!");
         }
 
-        $account = Account::Where("username", trim($username), true);
+        $account = Account::Where("username", $username,false);
 
 
         if ($account == null) {
             throw new \Exception("Account with this email does not exist!");
         }
 
+        if (!password_verify($password, $account["passwordhash"])){
+               throw new \Exception("Wrong password!");
+        }
 
-//        if (!password_verify($password, $account->getHashPassword())) {
-////            throw new \Exception("Wrong password!");
-//        }
 
         $secret = $_ENV['JWT_SECRET'] ?? 'default_secret';
         $expire_time = time() + 3600;
 
         $payload = [
-            'sub' => $account->getId(),
-            'email' => $account->getUsername(),
-            'role' => $account->getRole(),
+            'id' => $account["id"],
+            'username' => $account["username"],
+            'role' => $account["role"],
             'iat' => time(),
             'exp' => $expire_time
         ];
@@ -57,8 +58,9 @@ class AuthencationService
             'status' => 'success',
             'message' => 'Login successfully!',
             'account' => [
-                'id' => $account->getId(),
-                'role' => $account->getRole(),
+                'id' => $account["id"],
+                'username' => $account["username"],
+                'role' => $account["role"],
             ],
             'token_expired_at' => date('Y-m-d H:i:s', $expire_time)
         ];

@@ -2,9 +2,10 @@
 
 namespace models;
 
-use Cassandra\Date;
+
 
 require_once __DIR__ . "/BaseModel.php";
+require_once __DIR__ . "/Position.php";
 class Employee extends BaseModel
 {
     protected static string $tableName = 'employee';
@@ -14,18 +15,19 @@ class Employee extends BaseModel
 
     private  $email;
     private  $address;
-
-   private \DateTime $create_at;
+    private  $is_active;
+   private ?string $created_at = null;
    private  $position_id;
 
     public function __construct()
     {
-        $this->create_at = new \DateTime();
+
     }
 
 
     public function toArray(): array
     {
+        $positon = $this->position();
         return [
             'id' => $this->getId(),
             'fullname'=> $this->getFullname(),
@@ -33,10 +35,28 @@ class Employee extends BaseModel
             'email' => $this->getEmail(),
             "phone" => $this->getPhone(),
             'position_id' => $this->getPositionId(),
+            'create_at' => $this->getCreatedAt() ? new \DateTime($this->getCreatedAt()) : null,
+            "is_active" => $this->getIsActive(),
+            'position_name' => $positon ? $positon->getName() : null,
+        ];
+    }
+
+    public function toArraySave(): array
+    {
+        $positon = $this->position();
+        return [
+            'id' => $this->getId(),
+            'fullname'=> $this->getFullname(),
+            'address' => $this->getAddress(),
+            'email' => $this->getEmail(),
+            "phone" => $this->getPhone(),
+            'position_id' => $this->getPositionId(),
+            'create_at' => $this->getCreateAt(),
+            "is_active" => $this->getIsActive(),
         ];
     }
     public function position() : ?Position{
-        return Position::findById($this->position_id);
+        return Position::mapToObject(Position::findById($this->getPositionId()));
 
     }
 
@@ -49,7 +69,7 @@ class Employee extends BaseModel
         return Leaves::Where("employee_id",$this->id);
     }
 
-    public function getIsActive(): bool
+    public function getIsActive(): ?bool
     {
         return $this->is_active;
     }
@@ -111,15 +131,17 @@ class Employee extends BaseModel
         $this->address = $address;
     }
 
-    public function getCreateAt(): \DateTime
+    public function getCreatedAt(): ?string
     {
-        return $this->create_at;
+        return $this->created_at;
     }
 
-    public function setCreateAt(\DateTime $create_at): void
+    public function setCreatedAt(?string $created_at): void
     {
-        $this->create_at = $create_at;
+        $this->created_at = $created_at;
     }
+
+
 
     public function getPositionId(): int
     {

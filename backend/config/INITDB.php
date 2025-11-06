@@ -18,14 +18,10 @@ class INITDB
     private function __construct()
     {
         try {
-
-
             $dsn = "mysql:host={$this->host};dbname={$this->dbName};port={$this->port};charset=utf8mb4";
 
             $this->conn = new PDO($dsn, $this->username, $this->password);
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-           echo "Database connected.";
 
         } catch (PDOException $e) {
             throw new PDOException("Database connection failed: " . $e->getMessage());

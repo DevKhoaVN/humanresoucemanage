@@ -1,23 +1,34 @@
 <?php
 
 namespace models;
+require_once __DIR__ . "/BaseModel.php";
 
 class Department extends BaseModel
 {
-    protected static string $table = 'department';
+    protected static string $tableName = 'department';
 
-    private int $id;
+    private ?int $id = null;
 
     private string $name;
 
-    private bool $active;
+    private string $description;
+    private ?bool $status = null;
 
-    public function __construct(?int $id,bool $active, string $name)
+    public function __construct()
     {
-        $this->active = $active;
-        $this->name = $name;
+
     }
 
+    public function toArraySave() : array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'description' => $this->description,
+            'status' => $this->status
+        ];
+
+    }
     public function position(): array{
         return Position::Where("department_Id" , $this->id);
     }
@@ -33,6 +44,16 @@ class Department extends BaseModel
         $this->active = $active;
     }
 
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function setId(?int $id): void
+    {
+        $this->id = $id;
+    }
+
     public function getName(): string
     {
         return $this->name;
@@ -43,14 +64,24 @@ class Department extends BaseModel
         $this->name = $name;
     }
 
-    public function getId(): int
+    public function getDescription(): string
     {
-        return $this->id;
+        return $this->description;
     }
 
-    public function setId(int $id): void
+    public function setDescription(string $description): void
     {
-        $this->id = $id;
+        $this->description = $description;
+    }
+
+    public function isStatus(): bool
+    {
+        return $this->status;
+    }
+
+    public function setStatus(bool $status): void
+    {
+        $this->status = $status;
     }
 
 

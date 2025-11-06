@@ -26,20 +26,24 @@ Abstract class BaseModel
       return $result ;
   }
 
-  public static  function FindAll(): array {
+    public static function FindAll(): array
+    {
+        try {
+            $pdo = INITDB::getInstance()->getConnection();
+            $stmt = $pdo->prepare("SELECT * FROM " . static::$tableName);
+            $stmt->execute();
 
-      try {
-          $pdo = INITDB::getInstance()->getConnection();
-          $stmt = $pdo->prepare("SELECT * FROM " . static::$tableName);
-          $stmt->execute();
-          $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            // ánh xạ sang class gọi hàm
+            $stmt->setFetchMode(PDO::FETCH_CLASS, static::class);
 
-         echo "reuslt : ".var_dump($result);
-          return $result;
-      } catch (\PDOException $e) {
-          die("Query failed: " . $e->getMessage());
-      }
-  }
+            $result = $stmt->fetchAll();
+
+            return $result; // Mảng các object
+        } catch (\PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
 
     public static function Where(string $column, string $value, bool $option = false): array
     {
@@ -63,16 +67,18 @@ Abstract class BaseModel
 
 
          $option ?$result = $stmt->fetchAll(PDO::FETCH_ASSOC) :  $result = $stmt->fetch(PDO::FETCH_ASSOC);
-         echo " result ; ".var_dump($result);
 
-        return $result ? static::mapToObject($result) : [];
+
+        return $result;
     }
 
 
     public function save(): bool
     {
         $pdo = INITDB::getInstance()->getConnection();
-        $fields = $this->toArray();
+        $fields = $this->toArraySave();
+
+        echo " dâta : ".var_dump($fields);
 
         // loc bo filed null
         $fields = array_filter($fields , fn($value) => $value !== null);
@@ -88,7 +94,6 @@ Abstract class BaseModel
             $placeholders = implode(", ", array_map(fn($col) => ":$col", $columns));
             $query = "INSERT INTO " . static::$tableName . " ($colNames) VALUES ($placeholders)";
         }
-        echo"filed".var_dump($fields);
 
         try {
             $stmt = $pdo->prepare($query);
@@ -98,11 +103,11 @@ Abstract class BaseModel
         }
 
         // Gán id sau khi INSERT
-        if ($success && (!isset($this->getId) || $this->getId== 0)) {
-            $this->getId = $pdo->lastInsertId();
+        if ($success && empty($this->getId())) {
+            $this->setId($pdo->lastInsertId());
         }
 
-        return $success;
+        return $stmt->rowCount() > 0;
     }
 
     public static function deleteById(int $id , $deleteSoft = false):bool  {
@@ -117,7 +122,7 @@ Abstract class BaseModel
           $stmt = $pdo->prepare($query);
           $stmt->execute(['id' => $id]);
 
-          return $stmt;
+          return $stmt->rowCount() > 0;
       }catch (PDOException $e){
           die("Query failed: " . $e->getMessage());
       }
@@ -132,7 +137,7 @@ Abstract class BaseModel
 
             if (method_exists($obj, $method)) {
                 // Nếu có setter thì gọi
-                if (str_contains($key, 'date') || str_contains($key, 'create_at')) {
+                if (str_contains($key, 'dates') || str_contains($key, 'create_at')) {
                     try {
                         $value = new \DateTime($value);
                     } catch (\Exception $e) {}

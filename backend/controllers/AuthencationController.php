@@ -15,17 +15,15 @@ class AuthencationController
 
     public function login(){
 
-        header('Content-Type: application/json');
-
         try {
             $data = RequestHelper::getJsonBody();
-            $email = $data['email'];
+            $email = $data['username'];
             $password = $data['password'];
-
             $response = $this->authencationService->login($email, $password);
+
+            header('Content-Type: application/json');
             http_response_code(200);
             echo json_encode($response);
-
         }catch (InvalidArgumentException $e){
             http_response_code(400);
             echo json_encode([
