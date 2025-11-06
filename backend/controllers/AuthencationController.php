@@ -66,6 +66,25 @@ class AuthencationController
    }
   public function logout()
   {
+      try {
+
+          $result = $this->authencationService->logout();
+
+          http_response_code(200);
+          echo json_encode([
+              'code' => 200,
+              'status' => 'success',
+              'message' => 'Logout successful!'
+          ]);
+
+      }catch (Exception $e){
+          http_response_code(500);
+          echo json_encode([
+              'code' => 500,
+              'status' => 'error',
+              'message' => $e->getMessage()
+          ]);
+      }
 
   }
 

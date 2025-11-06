@@ -31,7 +31,6 @@ class AuthencationService
         }
 
 
-        $secret = $_ENV['JWT_SECRET'] ?? 'default_secret';
         $expire_time = time() + 3600;
 
         $payload = [
@@ -42,7 +41,7 @@ class AuthencationService
             'exp' => $expire_time
         ];
 
-        $token = JWT::encode($payload, $secret, 'HS256');
+        $token = JWT::encode($payload, $_ENV['JWT_SECRET'], 'HS256');
 
         setcookie("auth_token", $token, [
             'expires' => $expire_time,
@@ -101,21 +100,21 @@ class AuthencationService
 
     public function logout()
     {
+            if (isset($_COOKIE["auth_token"])) {
+                setcookie(
+                    "auth_token",
+                    "",
+                    time() - 3600,
+                    "/",
+                    "",
+                    false,
+                    true
+                );
+            }
 
-        $token = $_COOKIE["auth_token"] ?? null;
-
-        if (!$token) {
-            throw new \InvalidArgumentException("Not token found in cookie");
-        }
-
-        setcookie("auth_token", "", time() - 3600, '/', '', false, true);
-
-        return [
-            'code' => 200,
-            'status' => 'success',
-            'message' => 'Logout successful!'
-        ];
+            return true;
     }
+
 
 }
 
