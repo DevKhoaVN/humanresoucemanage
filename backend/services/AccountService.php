@@ -17,7 +17,15 @@ class AccountService
     }
 
     public function getAllAccounts(){
-        return Account::findAll();
+        $employees = Account::findAll();
+
+        $result = [];
+        foreach ($employees as $employee) {
+            $result[] = $employee->toArraySave();
+        }
+
+        return $result;
+
     }
     public function getAccount( int $id){
         if($id === null){
@@ -37,20 +45,20 @@ class AccountService
         if($account === null){
             throw new \Exception("Account id is null");
         }
-        $account->getHashPassword() ? password_hash($account->getHashPassword(), PASSWORD_BCRYPT) : null;
+        $account->getPasswordhash() ? password_hash($account->getPasswordhash(), PASSWORD_BCRYPT) : null;
        $result =  $account->save();
 
         return $result ? true : false;
     }
 
-//    public function deleteAccount( int $id){
-//        if($id === null){
-//            throw new \Exception("Account id is null");
-//        }
-//        $result = Account::deleteById($id,true);
-//
-//        return $result ? true : false;
-//    }
+    public function deleteAccount( int $id){
+        if($id === null){
+            throw new \Exception("Account id is null");
+        }
+        $result = Account::deleteById($id);
+
+        return $result ? true : false;
+    }
 //
 //    public function eanbleRole( int $id){
 //        if($id === null){

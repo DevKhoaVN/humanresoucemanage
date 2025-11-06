@@ -1,26 +1,22 @@
 <?php
 
-
-require_once __DIR__ .'/../vendor/autoload.php';
-
-require_once __DIR__ .'/../services/AccountService.php';
+require_once __DIR__ .'/../services/AttendanceService.php';
 require_once __DIR__ .'/../helper/RequestHelper.php';
 
-use models\Account;
-use services\AccountService;
+use models\Attendance;
+use services\AttendanceService;
 use helper\RequestHelper;
 
-class AccountController
+class AttendanceController
 {
-    private AccountService $accountService;
+    private AttendanceService $attendanceService;
 
     public function __construct(){
-      $this->accountService = new AccountService();
-  }
-
-    public function getAllAccounts() {
+        $this->attendanceService = new AttendanceService();
+    }
+    public function getAllAttendances() {
         try {
-            $result = $this->accountService->getAllAccounts();
+            $result = $this->attendanceService->getAllLAttendance();
             http_response_code(200);
 
             echo json_encode([
@@ -34,34 +30,35 @@ class AccountController
         }
     }
 
-    public function getAccountById(){
+    public function updateAttendance( ){
+
+        try {
+
+            $data = RequestHelper::getJsonBody();
+            $newAttendance =  Attendance::mapToObject($data);
+            echo"department : ".var_dump($newAttendance);
+            $result = $this->attendanceService->updateAttendance($newAttendance);
+
+            http_response_code(200);
+            echo json_encode([
+                'code' => 200,
+                'message' => 'Success',
+                'data' => $result
+            ]);
+        } catch (\Exception $e) {
+            http_response_code(500);
+            echo json_encode(['error : ' => $e->getMessage()]);
+        }
+    }
+    public function deleteAttendance(){
 
         try {
 
             $data = RequestHelper::getJsonBody();
             $id = $data['id'];
-            $result = $this->accountService->getAccount($id);
 
-            http_response_code(200);
-            echo json_encode([
-                'code' => 200,
-                'message' => 'Success',
-                'data' => $result
-            ]);
-        } catch (\Exception $e) {
-            http_response_code(500);
-            echo json_encode(['error : ' => $e->getMessage()]);
-        }
-    }
-    public function updateAccount( ){
+            $result = $this->attendanceService->deleteAttendace($id);
 
-        try {
-
-            $data = RequestHelper::getJsonBody();
-            $infor =  Account::mapToObject($data);
-
-
-            $result = $this->accountService->updateAccount($infor);
             http_response_code(200);
             echo json_encode([
                 'code' => 200,
@@ -74,28 +71,5 @@ class AccountController
         }
 
     }
-
-    public function deleteAccountById(){
-
-        try {
-
-            $data = RequestHelper::getJsonBody();
-            $id = $data['id'];
-            $result = $this->accountService->deleteAccount($id);
-            http_response_code(200);
-
-
-            echo json_encode([
-                'code' => 200,
-                'message' => 'Success',
-                'data' => $result
-            ]);
-        } catch (\Exception $e) {
-            http_response_code(500);
-            echo json_encode(['error : ' => $e->getMessage()]);
-        }
-
-    }
-
 
 }

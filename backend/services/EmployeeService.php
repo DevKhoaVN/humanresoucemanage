@@ -13,12 +13,22 @@ use PDO;
 class EmployeeService
 {
     private PDO $pdo;
+    private Employee $employee;
+
 
     public function __construct(){
         $this->pdo = INITDB::getInstance()->getConnection();
+        $this->employee = new Employee();
     }
    public function getAllEmployee(){
-       return  Employee::FindAll();
+
+       $employees = Employee::FindAll();
+       $result = [];
+       foreach ($employees as $employee) {
+           $result[] = $employee->toArray();
+       }
+
+       return $result;
    }
 
    public function getEmployeeById($id){
@@ -40,12 +50,8 @@ class EmployeeService
            throw new \Exception("Employee must not be null");
        }
 
-       $employee->getCreateAt(null);
 
-
-       $result = $employee->save()
-
-       ;
+       $result = $employee->save();
        return $result;
    }
 

@@ -2,40 +2,69 @@
 
 namespace models;
 
+require_once __DIR__ . "/Employee.php";
+
 use DateTime;
 
 class Review extends BaseModel
 {
 
-    protected static string $table = 'review';
+    protected static string $tableName = 'review';
 
+    private ?int $id = null;
     private int $employee_id;
-    private string $moth;
 
     private string $content;
 
-    private \DateTime $created_at;
-
-    private DateTime $updated_at;
+    private ?string $created_at = null;
 
 
-    public function __construct(int $employee_id, string $moth, string $content, DateTime $created_at, DateTime $updated_at)
+
+    public function __construct()
     {
-        $this->employee_id = $employee_id;
-        $this->moth = $moth;
-        $this->content = $content;
-        $this->created_at = $created_at;
-        $this->updated_at = $updated_at;
+
+    }
+
+    public function toArraySave(){
+        return [
+            'id' => $this->id,
+            'content' => $this->content,
+            'created_at' => $this->created_at,
+            'employee_id' => $this->employee_id,
+        ];
+    }
+
+    public function toArray(){
+
+        $employee = $this->employee();
+
+        return [
+            'id' => $this->id,
+            'content' => $this->content,
+            'created_at' => $this->created_at ? new DateTime($this->created_at) : null,
+            'employee_id' => $this->employee_id,
+            'employee_name'=> $employee ? $employee->getFullName() : null,
+        ];
     }
 
     // relation
 
-    public function review():Employee{
-        return Employee::findById($this->employee_id);
+    public function employee():?Employee{
+        return Employee::mapToObject(Employee::findById($this->employee_id));
     }
 
 
-    // getter & setter
+    //getter & setter
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function setId(?int $id): void
+    {
+        $this->id = $id;
+    }
+
     public function getEmployeeId(): int
     {
         return $this->employee_id;
@@ -44,16 +73,6 @@ class Review extends BaseModel
     public function setEmployeeId(int $employee_id): void
     {
         $this->employee_id = $employee_id;
-    }
-
-    public function getMoth(): string
-    {
-        return $this->moth;
-    }
-
-    public function setMoth(string $moth): void
-    {
-        $this->moth = $moth;
     }
 
     public function getContent(): string
@@ -66,24 +85,14 @@ class Review extends BaseModel
         $this->content = $content;
     }
 
-    public function getCreatedAt(): DateTime
+    public function getCreatedAt(): ?string
     {
         return $this->created_at;
     }
 
-    public function setCreatedAt(DateTime $created_at): void
+    public function setCreatedAt(?string $created_at): void
     {
         $this->created_at = $created_at;
-    }
-
-    public function getUpdatedAt(): DateTime
-    {
-        return $this->updated_at;
-    }
-
-    public function setUpdatedAt(DateTime $updated_at): void
-    {
-        $this->updated_at = $updated_at;
     }
 
 

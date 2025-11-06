@@ -2,70 +2,55 @@
 
 namespace models;
 
+
 use DateTime;
 
 require_once __DIR__ . "/BaseModel.php";
+require_once __DIR__ . "/Employee.php";
 class Account extends BaseModel
 {
     protected static string $tableName = 'account';
-    private int  $id;
+    private ?int  $id =null;
     private $username;
-    private $hash_password;
+    private $passwordhash;
     private $role;
     private $is_active;
-    private ?DateTime $create_at;
+    private ?string $create_at = null;
 
-    /**
-     * @param DateTime $create_at
-     * @param $is_active
-     * @param $role
-     * @param $hash_password
-     * @param $username
-     * @param int $id
-     */
-//    public function __construct(DateTime $create_at, $is_active, $role, $hash_password, $username, int $id)
-//    {
-//        $this->create_date = $create_at;
-//        $this->is_active = $is_active;
-//        $this->role = $role;
-//        $this->hash_password = $hash_password;
-//        $this->username = $username;
-//        $this->id = $id;
-//    }
     public function __construct()
     {
-        $this->create_at = new \DateTime();
     }
 
 
 
-    public function toArray(): array
+    public function toArraySave(): array
     {
         return [
             "id" => $this->getId(),
             'username' => $this->getUsername(),
-            'passwordhash' => $this->getHashPassword(),
+            'passwordhash' => $this->getPasswordhash(),
             'role' => $this->getRole(),
             'is_active' => $this->getIsActive(),
-            'create_at' => $this->getCreateAt() instanceof \DateTime
-                ? $this->getCreateAt()->format('Y-m-d')
-                : $this->getCreateAt()
+            'create_at' => $this->getCreateAt()
+                ? new DateTime($this->getCreateAt())
+                : null,
+
         ];
     }
 
-    public function getCreateAt(): ?DateTime
+    public function getCreateAt(): ?string
     {
         return $this->create_at;
     }
 
-    public function setCreateAt(?DateTime $create_at): void
+    public function setCreateAt(string $create_at): void
     {
         $this->create_at = $create_at;
     }
 
 
     public function employee(): ?Employee{
-        return Employee::findById($this->id);
+        return Employee::mapToObject(Employee::Where("postion_id" , $this->getId()));
     }
 
     /**
@@ -103,18 +88,20 @@ class Account extends BaseModel
     /**
      * @return mixed
      */
-    public function getHashPassword()
+    public function getPasswordhash()
     {
-        return $this->hash_password;
+        return $this->passwordhash;
     }
 
     /**
-     * @param mixed $hash_password
+     * @param mixed $passwordhash
      */
-    public function setHashPassword($hash_password): void
+    public function setPasswordhash($passwordhash): void
     {
-        $this->hash_password = $hash_password;
+        $this->passwordhash = $passwordhash;
     }
+
+
 
     /**
      * @return mixed
@@ -132,7 +119,7 @@ class Account extends BaseModel
         $this->username = $username;
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }

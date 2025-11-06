@@ -1,0 +1,74 @@
+<h1 class="text-2xl font-bold mb-4">Quản lí nhân sự</h1>
+<p class="text-gray-500 mb-6">Tổng quan hệ thống quản lý nhân sự</p>
+
+
+<div class="bg-white p-4 rounded shadow mt-6">
+  <h2 class="text-lg font-semibold mb-4">Danh sách nhân viên</h2>
+  <div class="overflow-x-auto">
+    <table class="min-w-full divide-y divide-gray-200 text-sm" id="employee_table">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-3 py-2 text-left font-medium text-gray-500">ID</th>
+          <th class="px-3 py-2 text-left font-medium text-gray-500">Tên nhân viên</th>
+          <th class="px-3 py-2 text-left font-medium text-gray-500">Email</th>
+          <th class="px-3 py-2 text-left font-medium text-gray-500">Số điện thoại</th>
+          <th class="px-3 py-2 text-left  font-medium text-gray-500 ">Vị trí </th>
+          <th class="px-6 py-2 text-left font-medium text-gray-500">Địa chỉ</th>
+          <th class="px-6 py-2 text-center font-medium text-gray-500">Hành vi</th>
+    
+        </tr>
+      </thead>
+      <tbody id="employeeTableBody" ></tbody>
+    </table>
+  </div>
+
+  <!-- Phân trang -->
+  <div id="pagination" class="flex justify-end mt-4 space-x-2"></div>
+
+  <div id="editModal" class="fixed inset-0 hidden justify-center items-center z-50 backdrop-blur-sm bg-black/30">
+  <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
+    <h2 class="text-xl font-semibold mb-4 text-center">Chỉnh sửa thông tin nhân sự</h2>
+    <form id="editForm" class="space-y-4">
+      <input type="hidden" id="editId" />
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Tên nhân viên</label>
+        <input id="editFullName" type="text" placeholder="Để trống nếu không đổi" 
+               class="mt-1 w-full  border border-gray-300  focus:outline-none  rounded-lg px-3 py-2 bg-gray-100 text-gray-600">
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Email</label>
+       <input  id="editEmail" type="email" placeholder="Để trống nếu không đổi"  class="mt-1 w-full  border border-gray-300  focus:outline-none  outline-none rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400">
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Số điện thoại</label>
+        <input id="editPhone" type="text" placeholder="Để trống nếu không đổi"
+               class="mt-1 w-full border border-gray-300  focus:outline-none rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400">
+      </div>
+    
+
+     <div>
+  <label class="block text-sm font-medium text-gray-700">Vị trí</label>
+
+  <select id="positionSelect" 
+          class="mt-1 w-full border border-gray-300 focus:outline-none rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400">
+    <option value="">-- Chọn vị trí --</option>
+  </select>
+
+  <input id="editPosition" type="text" placeholder="Để trống nếu không đổi"
+         class="mt-2 w-full border border-gray-300 focus:outline-none rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400">
+</div>
+  
+       <div>
+        <label class="block text-sm font-medium text-gray-700">Địa chỉ</label>
+        <input id="editPostion" type="text" placeholder="Để trống nếu không đổi"
+               class="mt-1 w-full border border-gray-300  focus:outline-none rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400">
+      </div>
+    </form>
+  </div>
+</div>
+</div>
+
+<script type="module" src="./employeepage/employeepage.js"></script>

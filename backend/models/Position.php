@@ -2,43 +2,77 @@
 
 namespace models;
 
+require_once __DIR__ .'/BaseModel.php';
+require_once __DIR__ .'/Department.php';
+
 class Position extends BaseModel
 {
-    protected static string $tableName = "position";
+    protected static string $tableName = "positions";
 
-    private int $id;
+    private ?int $id = null;
+    private  int $department_id ;
     private string $name;
 
     private float $salary;
     private string $description;
 
-    /**
-     * @param int $id
-     * @param string $name
-     * @param float $salary
-     * @param string $description
-     */
-    public function __construct(?int $id, string $name, float $salary, string $description)
+
+    public function __construct()
     {
-        $this->id = $id;
-        $this->name = $name;
-        $this->salary = $salary;
-        $this->description = $description;
+
+    }
+    public function toArray()
+    {
+        $department = $this->department();
+
+        return [
+            "id" => $this->id,
+            "department_id" => $this->department_id,
+            "department_name" =>  $department ? $department->getName() : "",
+            "name" => $this->name,
+            "salary" => $this->salary,
+            "description" => $this->description,
+
+        ];
+
     }
 
-    public function departmentId(): Department{
-        return Department::findById($this->id);
+
+    public function toArraySave()
+    {
+        return [
+            'id' => $this->id,
+            'employee_id' => $this->department_id,
+            'name' => $this->name,
+            'salary' => $this->salary,
+            'description' => $this->description,
+
+        ];
+
     }
 
-    //getter & setter
-    public function getId(): int
+    public function department(): ?Department{
+        return Department::mapToObject(Department::findById($this->department_id));
+    }
+
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setId(int $id): void
+    public function setId(?int $id): void
     {
         $this->id = $id;
+    }
+
+    public function getDepartmentId(): int
+    {
+        return $this->department_id;
+    }
+
+    public function setDepartmentId(int $department_id): void
+    {
+        $this->department_id = $department_id;
     }
 
     public function getName(): string
@@ -71,6 +105,7 @@ class Position extends BaseModel
         $this->description = $description;
     }
 
+    //getter & setter
 
 
 }

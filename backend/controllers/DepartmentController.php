@@ -1,26 +1,22 @@
 <?php
 
-
-require_once __DIR__ .'/../vendor/autoload.php';
-
-require_once __DIR__ .'/../services/AccountService.php';
+require_once __DIR__ .'/../services/DepartmentService.php';
 require_once __DIR__ .'/../helper/RequestHelper.php';
 
-use models\Account;
-use services\AccountService;
+use models\Department;
+use services\DepartmentService;
 use helper\RequestHelper;
 
-class AccountController
+class DepartmentController
 {
-    private AccountService $accountService;
+    private DepartmentService $departmentService;
 
     public function __construct(){
-      $this->accountService = new AccountService();
-  }
-
-    public function getAllAccounts() {
+        $this->departmentService = new DepartmentService();
+    }
+    public function getAllDepartments() {
         try {
-            $result = $this->accountService->getAllAccounts();
+            $result = $this->departmentService->getAllDepartments();
             http_response_code(200);
 
             echo json_encode([
@@ -34,34 +30,35 @@ class AccountController
         }
     }
 
-    public function getAccountById(){
+    public function updateDepartment( ){
+
+        try {
+
+            $data = RequestHelper::getJsonBody();
+            $newDepartment = Department::mapToObject($data);
+            echo"department : ".var_dump($newDepartment);
+            $result = $this->departmentService->updateDepartment($newDepartment);
+
+            http_response_code(200);
+            echo json_encode([
+                'code' => 200,
+                'message' => 'Success',
+                'data' => $result
+            ]);
+        } catch (\Exception $e) {
+            http_response_code(500);
+            echo json_encode(['error : ' => $e->getMessage()]);
+        }
+    }
+    public function deleteDepartment($id ){
 
         try {
 
             $data = RequestHelper::getJsonBody();
             $id = $data['id'];
-            $result = $this->accountService->getAccount($id);
 
-            http_response_code(200);
-            echo json_encode([
-                'code' => 200,
-                'message' => 'Success',
-                'data' => $result
-            ]);
-        } catch (\Exception $e) {
-            http_response_code(500);
-            echo json_encode(['error : ' => $e->getMessage()]);
-        }
-    }
-    public function updateAccount( ){
+            $result = $this->departmentService->deleteDepartment($id);
 
-        try {
-
-            $data = RequestHelper::getJsonBody();
-            $infor =  Account::mapToObject($data);
-
-
-            $result = $this->accountService->updateAccount($infor);
             http_response_code(200);
             echo json_encode([
                 'code' => 200,
@@ -74,28 +71,5 @@ class AccountController
         }
 
     }
-
-    public function deleteAccountById(){
-
-        try {
-
-            $data = RequestHelper::getJsonBody();
-            $id = $data['id'];
-            $result = $this->accountService->deleteAccount($id);
-            http_response_code(200);
-
-
-            echo json_encode([
-                'code' => 200,
-                'message' => 'Success',
-                'data' => $result
-            ]);
-        } catch (\Exception $e) {
-            http_response_code(500);
-            echo json_encode(['error : ' => $e->getMessage()]);
-        }
-
-    }
-
 
 }
