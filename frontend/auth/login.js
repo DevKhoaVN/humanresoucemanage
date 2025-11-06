@@ -38,7 +38,7 @@ loginForm.addEventListener('submit', async function (e) {
   localStorage.setItem("id", data.account.id);
 
   if (["admin", "boss"].includes(data.account.role)) {
-    window.location.href = "http://localhost:5500/fontend/dashboard.html";
+    window.location.href = "../dashboard.html";
   }
 } else {
   errorMsg.textContent = data.message || "Invalid username or password!";
