@@ -1,7 +1,7 @@
 import paginateTable from "../utils/render.js";
 async function loadEmployees() {
-  const API_URL_EMPLOYEES = "http://localhost:63342/index.php?url=home/getEmployeesDashboard";
-  const API_URL_DASHBOARD = "http://localhost:63342/index.php?url=home/getInforDashboard";
+  const API_URL_EMPLOYEES = "https://quanlinhansu.infinityfreeapp.com?url=home/getEmployeesDashboard";
+  const API_URL_DASHBOARD = "https://quanlinhansu.infinityfreeapp.com?url=home/getInforDashboard";
 
   try {
     // ---fetch song song ---
