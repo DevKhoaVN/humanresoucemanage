@@ -13,7 +13,7 @@ class Position extends BaseModel
     private  int $department_id ;
     private string $name;
 
-    private float $salary;
+    private float $base_salary;
     private string $description;
 
 
@@ -30,7 +30,7 @@ class Position extends BaseModel
             "department_id" => $this->department_id,
             "department_name" =>  $department ? $department->getName() : "",
             "name" => $this->name,
-            "salary" => $this->salary,
+            "salary" => $this->base_salary,
             "description" => $this->description,
 
         ];
@@ -42,9 +42,9 @@ class Position extends BaseModel
     {
         return [
             'id' => $this->id,
-            'employee_id' => $this->department_id,
+            'department_id' => $this->department_id,
             'name' => $this->name,
-            'salary' => $this->salary,
+            'base_salary' => $this->base_salary,
             'description' => $this->description,
 
         ];
@@ -85,15 +85,17 @@ class Position extends BaseModel
         $this->name = $name;
     }
 
-    public function getSalary(): float
+    public function getBaseSalary(): float
     {
-        return $this->salary;
+        return $this->base_salary;
     }
 
-    public function setSalary(float $salary): void
+    public function setBaseSalary(float $base_salary): void
     {
-        $this->salary = $salary;
+        $this->base_salary = $base_salary;
     }
+
+
 
     public function getDescription(): string
     {

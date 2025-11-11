@@ -36,7 +36,6 @@ class DepartmentController
 
             $data = RequestHelper::getJsonBody();
             $newDepartment = Department::mapToObject($data);
-            echo"department : ".var_dump($newDepartment);
             $result = $this->departmentService->updateDepartment($newDepartment);
 
             http_response_code(200);
@@ -50,7 +49,7 @@ class DepartmentController
             echo json_encode(['error : ' => $e->getMessage()]);
         }
     }
-    public function deleteDepartment($id ){
+    public function deleteDepartment( ){
 
         try {
 

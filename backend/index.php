@@ -21,8 +21,6 @@ $route = strtolower($urlPaths[1] ?? '');
 $publicRoutes = ['login', 'register', 'logout'];
 
 
-echo" gi day".var_dump(!in_array($route, $publicRoutes));
-
 if (in_array($route, $publicRoutes)) {
     AuthMiddleware::handle();
 }

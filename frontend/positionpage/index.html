@@ -1,0 +1,61 @@
+<h1 class="text-2xl font-bold mb-4">Quản lí vị trí</h1>
+<p class="text-gray-500 mb-6">Danh sách vị trí trông công ty</p>
+
+<!-- Nút Thêm bộ phận -->
+<button id="addPositiontBtn" class="mb-4 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">Thêm vị trí</button>
+
+<div class="bg-white p-4 rounded shadow mt-2">
+  <h2 class="text-lg font-semibold mb-4">Danh sách vị rí</h2>
+  <div class="overflow-x-auto">
+    <table class="min-w-full divide-y divide-gray-200 text-sm" id="employee_table">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-3 py-2 text-left font-medium text-gray-500">ID</th>
+          <th class="px-3 py-2 text-left font-medium text-gray-500">Tên vị trí</th>
+          <th class="px-3 py-2 text-left font-medium text-gray-500">Mô tả</th>
+          <th class="px-3 py-2 text-left font-medium text-gray-500">Mức lương cơ bản</th>
+         <th class="px-3 py-2 text-left font-medium text-gray-500">Bộ phận</th>
+         <th class="px-3 py-2 text-center font-medium text-gray-500">Hành vi</th>
+        </tr>
+      
+      </thead>
+      <tbody id="employeeTableBody"></tbody>
+    </table>
+  </div>
+
+  <!-- Phân trang -->
+  <div id="pagination" class="flex justify-end mt-4 space-x-2"></div>
+</div>
+
+<!-- Modal Thêm bộ phận -->
+<div id="addModal" class="fixed  inset-0 hidden justify-center items-center bg-black/40 z-50">
+  <div class="bg-white p-6 rounded-lg shadow w-full max-w-md">
+    <h3 id = "titleForm" class="text-xl text-center font-semibold mb-4">Thêm vị trí mới</h3>
+    <form id="addDepartmentForm" class="space-y-4">
+         <input type="hidden" id="editId" />
+      <div>
+        <label class="block text-sm font-medium mb-1 text-gray-700">Tên vị trí</label>
+        <input type="text" id="departmentName" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1 text-gray-700">Mô tả</label>
+        <textarea id="departmentDescription" class="w-full border  border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1 text-gray-700">Lương cơ bản</label>
+        <textarea id="departmentBaseSalary" class="w-full border  border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
+      </div>
+      <div>
+      <select id="departmentSelect" class="w-full border  border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+       <option value="">-- Chọn bộ phận --</option>
+       </select>
+      </div>
+      <div class="flex justify-end space-x-2">
+        <button type="button" id="cancelBtn" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Hủy</button>
+        <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Lưu</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script type="module" src="./positionpage/position.js"></script>

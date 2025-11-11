@@ -25,50 +25,81 @@
   <!-- Phân trang -->
   <div id="pagination" class="flex justify-end mt-4 space-x-2"></div>
 
-  <div id="editModal" class="fixed inset-0 hidden justify-center items-center z-50 backdrop-blur-sm bg-black/30">
-  <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
-    <h2 class="text-xl font-semibold mb-4 text-center">Chỉnh sửa thông tin nhân sự</h2>
+  <!-- Modal chỉnh sửa nhân sự -->
+<div id="editModal" class="fixed inset-0 hidden justify-center items-center z-50 bg-black/30 backdrop-blur-sm">
+  <div class="bg-white rounded-xl shadow-2xl w-full max-w-md p-6 animate-fadeIn">
+    <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">
+      ✏️ Chỉnh sửa thông tin nhân sự
+    </h2>
+
     <form id="editForm" class="space-y-4">
+      <!-- ID ẩn -->
       <input type="hidden" id="editId" />
 
+      <!-- Họ tên -->
       <div>
-        <label class="block text-sm font-medium text-gray-700">Tên nhân viên</label>
-        <input id="editFullName" type="text" placeholder="Để trống nếu không đổi" 
-               class="mt-1 w-full  border border-gray-300  focus:outline-none  rounded-lg px-3 py-2 bg-gray-100 text-gray-600">
+        <label for="editFullName" class="block text-sm font-medium text-gray-700 mb-1">
+          Tên nhân viên
+        </label>
+        <input id="editFullName" type="text" placeholder="Nhập tên mới (nếu muốn đổi)"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none bg-gray-50">
       </div>
 
+      <!-- Email -->
       <div>
-        <label class="block text-sm font-medium text-gray-700">Email</label>
-       <input  id="editEmail" type="email" placeholder="Để trống nếu không đổi"  class="mt-1 w-full  border border-gray-300  focus:outline-none  outline-none rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400">
+        <label for="editEmail" class="block text-sm font-medium text-gray-700 mb-1">
+          Email
+        </label>
+        <input id="editEmail" type="email" placeholder="Nhập email mới"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none bg-gray-50">
       </div>
 
+      <!-- Số điện thoại -->
       <div>
-        <label class="block text-sm font-medium text-gray-700">Số điện thoại</label>
-        <input id="editPhone" type="text" placeholder="Để trống nếu không đổi"
-               class="mt-1 w-full border border-gray-300  focus:outline-none rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400">
+        <label for="editPhone" class="block text-sm font-medium text-gray-700 mb-1">
+          Số điện thoại
+        </label>
+        <input id="editPhone" type="text" placeholder="Nhập số mới"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none bg-gray-50">
       </div>
-    
 
-     <div>
-  <label class="block text-sm font-medium text-gray-700">Vị trí</label>
+      <!-- Vị trí -->
+      <div>
+        <label for="positionSelect" class="block text-sm font-medium text-gray-700 mb-1">
+          Vị trí
+        </label>
+        <select id="positionSelect"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none bg-gray-50">
+          <option value="">-- Chọn vị trí --</option>
+        </select>
 
-  <select id="positionSelect" 
-          class="mt-1 w-full border border-gray-300 focus:outline-none rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400">
-    <option value="">-- Chọn vị trí --</option>
-  </select>
+        <input id="editPosition" type="text" placeholder="Hoặc nhập vị trí mới"
+          class="mt-2 w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none bg-gray-50">
+      </div>
 
-  <input id="editPosition" type="text" placeholder="Để trống nếu không đổi"
-         class="mt-2 w-full border border-gray-300 focus:outline-none rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400">
-</div>
-  
-       <div>
-        <label class="block text-sm font-medium text-gray-700">Địa chỉ</label>
-        <input id="editPostion" type="text" placeholder="Để trống nếu không đổi"
-               class="mt-1 w-full border border-gray-300  focus:outline-none rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400">
+      <!-- Địa chỉ -->
+      <div>
+        <label for="editAddress" class="block text-sm font-medium text-gray-700 mb-1">
+          Địa chỉ
+        </label>
+        <input id="editAddress" type="text" placeholder="Nhập địa chỉ mới"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none bg-gray-50">
+      </div>
+
+      <!-- Nút hành động -->
+      <div class="flex justify-end space-x-3 pt-4 border-t border-gray-200 mt-6">
+        <button type="button" id="cancelEdit"
+          class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition">
+          Hủy
+        </button>
+        <button type="submit"
+          class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+          Lưu thay đổi
+        </button>
       </div>
     </form>
   </div>
 </div>
-</div>
+
 
 <script type="module" src="./employeepage/employeepage.js"></script>

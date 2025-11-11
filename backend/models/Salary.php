@@ -26,7 +26,7 @@ class Salary extends  BaseModel
         $employee = $this->employee();
 
         return [
-            'id' => (int)$this->id,
+            'id' => $this->id,
             'employee_id' => (int)$this->employee_id,
             'employee_name' => $employee ? $employee->getFullName() : '',
             'position' => $employee ? $employee->position()->getName() : '',
@@ -34,7 +34,7 @@ class Salary extends  BaseModel
             'absent_days' => (int)$this->absent_days,
             'work_days' => (int)$this->work_days,
 
-            // giới hạn 3 chữ số sau dấu phẩy
+
             'base_salary' => round((float)$this->base_salary, 3),
             'total_salary' => round((float)$this->total_salary, 3),
 

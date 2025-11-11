@@ -22,7 +22,7 @@ loginForm.addEventListener('submit', async function (e) {
 
   try {
     // fetch + await + parse JSON
-    const res = await fetch('https://quanlinhansu.infinityfreeapp.com?url=authencation/login', {
+    const res = await fetch("http://localhost:63342/index.php?url=authencation/login", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

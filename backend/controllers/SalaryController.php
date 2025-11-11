@@ -22,8 +22,8 @@ class SalaryController
     public function saveSalary( ) {
 
         // hash code
-        $month = 10;
-        $year = 2025;
+        $month = date('m');
+        $year  = date('Y');
 
         try {
 
@@ -44,7 +44,11 @@ class SalaryController
     public function gettAllSalaryInMonth( ){
 
         try {
-            $result = $this->salaryService->getAllSalaryInMonth();
+
+            $data = RequestHelper::getJsonBody();
+            $year = $data['year'];
+            $month = $data['month'];
+            $result = $this->salaryService->getSalaryByMonthYear($month , $year);
 
             http_response_code(200);
             echo json_encode([
@@ -57,6 +61,8 @@ class SalaryController
             echo json_encode(['error : ' => $e->getMessage()]);
         }
     }
+
+
 
 
 }
