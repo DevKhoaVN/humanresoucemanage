@@ -43,8 +43,7 @@ class AttendanceService
             return $reuslt;
 
         } catch (\PDOException $e) {
-            error_log("GetAttendanceByDate Error: " . $e->getMessage());
-            return false;
+            throw new \Exception("Lỗi khi lấy dữ liệu attendace: " . $e->getMessage());
         }
     }
 
@@ -82,8 +81,7 @@ class AttendanceService
             return $reuslt ;
 
         } catch (\PDOException $e) {
-            error_log("GetAttendance Error: " . $e->getMessage());
-            return false;
+            throw new \Exception("Lỗi khi lấy dữ liệu attendace: " . $e->getMessage());
         }
     }
 
@@ -132,8 +130,7 @@ class AttendanceService
             ]);
             return $stmt->rowCount() > 0;
         } catch (\PDOException $e) {
-            error_log("CheckOut Error: " . $e->getMessage());
-            return false;
+            throw new \Exception("Lỗi khi lấy dữ liệu attendace: " . $e->getMessage());
         }
     }
 

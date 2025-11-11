@@ -21,7 +21,8 @@ $route = strtolower($urlPaths[1] ?? '');
 $publicRoutes = ['login', 'register', 'logout'];
 
 
-if (in_array($route, $publicRoutes)) {
+$method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+if ($method !== 'OPTIONS' && !in_array($route, $publicRoutes)) {
     AuthMiddleware::handle();
 }
 

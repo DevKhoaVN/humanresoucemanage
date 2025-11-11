@@ -34,6 +34,8 @@ document.addEventListener("DOMContentLoaded", () => {
         await loadPage("./attendancepage")
       } else if (page === 'Đánh giá'){
         await loadPage("./reviewpage")
+      }else if (page === 'Nghỉ phép'){
+        await loadPage("./leavepage")
       }
        else {
         mainContent.innerHTML = `

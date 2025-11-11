@@ -42,7 +42,6 @@ class Leaves extends BaseModel
 
         return [
             "id" => $this->id,
-            "employee_id" => $this->employee_id,
             "leave_type" => $this->leave_type,
             "reason" => $this->reason,
             "status" => $this->status,
@@ -58,7 +57,8 @@ class Leaves extends BaseModel
         return [
             "id" => $this->id,
             "employee_id" => $this->employee_id,
-            "employee _ name" => $employee ? $employee->getFullName() : null,
+            "employee_name" => $employee ? $employee->getFullName() : null,
+            "employee_position" => $employee->position()->getName()  ?? null,
             "leave_type" => $this->leave_type,
             "reason" => $this->reason,
             "status" => $this->status,

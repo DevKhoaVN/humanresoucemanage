@@ -43,7 +43,11 @@ class EmployeeController
             $id = $data["id"];
             $result = $this->employeeService->getEmployeeById($id);
             http_response_code(200);
-            echo json_encode($result);
+            echo json_encode([
+                'code' => 200,
+                'message' => 'Success',
+                'data' => $result
+            ]);
         } catch (\Exception $e) {
             http_response_code(500);
             echo json_encode(['error' => $e->getMessage()]);
@@ -60,7 +64,11 @@ class EmployeeController
 
             $result = $this->employeeService->updateEmployee($employee);
             http_response_code(200);
-            echo json_encode($result);
+            echo json_encode([
+                'code' => 200,
+                'message' => 'Success',
+                'data' => $result
+            ]);
         } catch (\Exception $e) {
             http_response_code(500);
             echo json_encode(['error' => $e->getMessage()]);
@@ -77,9 +85,12 @@ class EmployeeController
 
             $result = $this->employeeService->deleteEmployee($id);
 
-            $filterd =
             http_response_code(200);
-            echo json_encode($result);
+            echo json_encode([
+                'code' => 200,
+                'message' => 'Success',
+                'data' => $result
+            ]);
         } catch (\Exception $e) {
             http_response_code(500);
             echo json_encode(['error' => $e->getMessage()]);
@@ -97,7 +108,11 @@ class EmployeeController
 
             $result = $this->employeeService->searchEmployee($searchTemp);
             http_response_code(200);
-            echo json_encode($result);
+            echo json_encode([
+                'code' => 200,
+                'message' => 'Success',
+                'data' => $result
+            ]);
         } catch (\Exception $e) {
             http_response_code(500);
             echo json_encode(['error' => $e->getMessage()]);
