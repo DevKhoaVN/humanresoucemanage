@@ -16,7 +16,9 @@ class AttendanceController
     }
     public function getAllAttendances() {
         try {
-            $result = $this->attendanceService->getAllLAttendance();
+            $data =  RequestHelper::getJsonBody();
+            $work_date = $data['work_date'];
+            $result = $this->attendanceService->getAllAttendance($work_date);
             http_response_code(200);
 
             echo json_encode([
@@ -30,6 +32,46 @@ class AttendanceController
         }
     }
 
+    public function checkIn() {
+        try {
+            $data =  RequestHelper::getJsonBody();
+            $employee_id = $data['employee_id'];
+            $check_in = $data['check_in'];
+            $result = $this->attendanceService->checkIn($employee_id , $check_in);
+            http_response_code(200);
+
+            echo json_encode([
+                'code' => 200,
+                'message' => 'Success',
+                'data' => $result
+            ]);
+        } catch (\Exception $e) {
+            http_response_code(500);
+            echo json_encode(['error' => $e->getMessage()]);
+        }
+    }
+
+    public function checkOut() {
+        try {
+            $data =  RequestHelper::getJsonBody();
+            $employee_id = $data['employee_id'];
+            $check_out = $data['check_out'];
+            $work_date = $data['work_date'];
+            $result = $this->attendanceService->checkOut($employee_id , $check_out , $work_date);
+            http_response_code(200);
+
+            echo json_encode([
+                'code' => 200,
+                'message' => 'Success',
+                'data' => $result
+            ]);
+        } catch (\Exception $e) {
+            http_response_code(500);
+            echo json_encode(['error' => $e->getMessage()]);
+        }
+    }
+
+
     public function updateAttendance( ){
 
         try {
@@ -38,6 +80,29 @@ class AttendanceController
             $newAttendance =  Attendance::mapToObject($data);
             echo"department : ".var_dump($newAttendance);
             $result = $this->attendanceService->updateAttendance($newAttendance);
+
+            http_response_code(200);
+            echo json_encode([
+                'code' => 200,
+                'message' => 'Success',
+                'data' => $result
+            ]);
+        } catch (\Exception $e) {
+            http_response_code(500);
+            echo json_encode(['error : ' => $e->getMessage()]);
+        }
+    }
+
+    public function findAttendanceById( ){
+
+        try {
+
+            $data = RequestHelper::getJsonBody();
+            $employee_id = $data["employee_id"] ?? null;
+            $work_date = $data["work_date"] ?? null;
+
+
+            $result = $this->attendanceService->findAttendanceByIdOrDate($employee_id , $work_date);
 
             http_response_code(200);
             echo json_encode([

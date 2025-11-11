@@ -1,5 +1,6 @@
 const navLinks = document.querySelectorAll("aside nav a");
 const mainContent = document.getElementById("main_content");
+const name = document.getElementById("name");
 
 document.addEventListener("DOMContentLoaded", () => {
   navLinks.forEach(link => {
@@ -23,7 +24,18 @@ document.addEventListener("DOMContentLoaded", () => {
         await loadPage('./accountpage');
       } else if (page === "Nhân sự") {
         await loadPage('./employeepage');
-      } else {
+      }else if (page ==='Phòng ban'){
+        await loadPage("./departmentpage")
+      }else if (page === 'Lương'){
+        await loadPage("./salarypage")
+      }else if (page === 'Vị trí'){
+        await loadPage("./positionpage")
+      } else if (page === 'Chấm công'){
+        await loadPage("./attendancepage")
+      } else if (page === 'Đánh giá'){
+        await loadPage("./reviewpage")
+      }
+       else {
         mainContent.innerHTML = `
           <h1 class="text-2xl font-bold mb-4">${page}</h1>
           <div class="bg-white p-4 rounded shadow">Trang này đang được phát triển...</div>

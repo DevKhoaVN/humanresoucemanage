@@ -17,7 +17,7 @@ Abstract class BaseModel
 
 
 
-      $stmt = $pdo->prepare("SELECT * FROM " . static::$tableName . " WHERE id = :id");
+      $stmt = $pdo->prepare("SELECT * FROM " . static::$tableName . " WHERE id = :id  ORDER BY id DESC");
       $stmt->execute(['id' => $id]);
 
       $result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -38,7 +38,7 @@ Abstract class BaseModel
 
             $result = $stmt->fetchAll();
 
-            return $result; // Mảng các object
+            return $result;
         } catch (\PDOException $e) {
             die("Query failed: " . $e->getMessage());
         }
@@ -78,7 +78,6 @@ Abstract class BaseModel
         $pdo = INITDB::getInstance()->getConnection();
         $fields = $this->toArraySave();
 
-        echo " dâta : ".var_dump($fields);
 
         // loc bo filed null
         $fields = array_filter($fields , fn($value) => $value !== null);

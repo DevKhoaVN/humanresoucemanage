@@ -44,8 +44,7 @@
       }
     }
 
-
-async function deleteEmployee(id) {
+  async function deleteAccount(id) {
   const API_DELETE = "http://localhost:63342/index.php?url=employee/deleteEmployee";
   if (!confirm("Bạn có chắc chắn muốn xóa tài khoản này?")) return;
 
@@ -63,5 +62,76 @@ async function deleteEmployee(id) {
     console.error("Lỗi khi xóa:", error);
   }
 }
-loadEmployees();
+
+// === Xử lý nút Sửa / Xóa ===
+document.addEventListener("click", (e) => {
+  if (e.target.closest(".edit-btn")) {
+    const id = e.target.closest(".edit-btn").dataset.id;
+    openEditModal(id);
+  } else if (e.target.closest(".delete-btn")) {
+    const id = e.target.closest(".delete-btn").dataset.id;
+    deleteAccount(id);
+  }
+});
+
+// === Modal ===
+function openEditModal(id) {
+  const acc = window.window.EmployeeList.find((a) => a.id == id);
+  if (!acc) return;
+
+  document.getElementById("editId").value = acc.id;
+  document.getElementById("editFullName").value = acc.username;
+  document.getElementById("editEmail").value = acc.role;
+  document.getElementById("editPhone").value = "";
+  document.getElementById("positionSelect").value = "";
+  document.getElementById("editAddress").value = "";
+  
+
+  const modal = document.getElementById("editModal");
+  modal.classList.remove("hidden");
+  modal.classList.add("flex");
+}
+
+function closeEditModal() {
+  const modal = document.getElementById("editModal");
+  modal.classList.add("hidden");
+  modal.classList.remove("flex");
+}
+
+document.getElementById("cancelEdit").addEventListener("click", closeEditModal);
+
+document.getElementById("editForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const id = document.getElementById("editId").value;
+  const role = document.getElementById("editRole").value;
+  const password = document.getElementById("editPassword").value;
+
+  const payload = { id, "role" : role, "passwordhash" : password };
+
+  console.log("payload " ,payload)
+  try {
+    const res = await fetch("http://localhost:63342/index.php?url=account/updateAccount", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await res.json();
+    if (data.code == 200) {
+      alert("Cập nhật thành công!");
+      closeEditModal();
+      loadAccounts();
+    } else {
+      alert("Cập nhật thất bại: " + (data.error || "Không xác định"));
+    }
+  } catch (err) {
+    console.error("Lỗi:", err);
+    alert("Có lỗi khi cập nhật tài khoản!");
+  }
+});
+    
+    
+    
+    loadEmployees();
     

@@ -25,7 +25,7 @@ class Attendance extends BaseModel
 
         return [
             'id' => $this->id,
-            'employee_id' => $employee->getId() || null ,
+            'employee_id' => $employee->getId() ,
             'employee_name' => $employee ? $employee->getFullname() : '',
             'work_date' => $this->work_date,
 

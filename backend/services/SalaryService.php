@@ -3,6 +3,7 @@
 namespace services;
 require_once __DIR__ ."/../models/Salary.php";
 require_once __DIR__ ."/../config/INITDB.php";
+require_once __DIR__ ."/../models/Salary.php";
 
 
 use config\INITDB;
@@ -87,17 +88,48 @@ class SalaryService
         }
     }
 
-    public function getAllSalaryInMonth(){
+    public function getSalaryByMonthYear(int $month, int $year)
+    {
+        try {
+            $pdo = INITDB::getInstance()->getConnection();
 
-        $salaries =  Salary::FindAll();
+            $query = "
+            SELECT 
+                id,
+                employee_id,
+                base_salary,
+                work_days,
+                absent_days,
+                total_salary,
+                created_at
+            FROM salary
+            WHERE MONTH(created_at) = :month
+              AND YEAR(created_at) = :year
+        ";
 
-        $result = [];
-        foreach ($salaries as $salary) {
-            $result[] = $salary->toArray();
+            $stmt = $pdo->prepare($query);
+
+            $stmt->setFetchMode(PDO::FETCH_CLASS , Salary::class);
+            $stmt->execute([
+                ':month' => $month,
+                ':year'  => $year
+            ]);
+
+            $ob =  $stmt->fetchAll();
+
+            $result = [];
+
+            foreach ($ob as $salary) {
+                $result[] = $salary->toArray();
+            }
+
+             return $result;
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return [];
         }
-
-        return $result;
     }
+
 
 
 
