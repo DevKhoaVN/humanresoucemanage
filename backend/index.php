@@ -15,11 +15,10 @@ $dotenv->load();
 
 $url = $_GET['url'] ?? 'index';
 $urlPaths = explode('/', trim($url, '/'));
-$route = strtolower($urlPaths[1] ?? '');
+$route = trim(strtolower($urlPaths[1] ?? ''));
 
 
 $publicRoutes = ['login', 'register', 'logout'];
-
 
 $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 if ($method !== 'OPTIONS' && !in_array($route, $publicRoutes)) {

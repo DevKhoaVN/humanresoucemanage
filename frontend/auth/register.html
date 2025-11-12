@@ -60,38 +60,6 @@
     </p>
 
   </div>
-
-  <!-- JS xử lý register -->
-  <script>
-    const registerForm = document.getElementById('registerForm');
-    const errorMsg = document.getElementById('error');
-
-    registerForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      const fullname = document.getElementById('fullname').value.trim();
-      const username = document.getElementById('username').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value;
-      const confirmPassword = document.getElementById('confirmPassword').value;
-
-      if(password !== confirmPassword) {
-        errorMsg.textContent = "Mật khẩu và xác nhận mật khẩu không khớp!";
-        errorMsg.classList.remove('hidden');
-        return;
-      }
-
-      if(fullname === "" || username === "" || email === "" || password === "") {
-        errorMsg.textContent = "Vui lòng điền đầy đủ thông tin!";
-        errorMsg.classList.remove('hidden');
-        return;
-      }
-
-      // Demo: đăng ký thành công → quay về login
-      alert("Đăng ký thành công! Hãy đăng nhập.");
-      window.location.href = 'login.html';
-    });
-  </script>
-
+   <script src="./register.js"></script>
 </body>
 </html>

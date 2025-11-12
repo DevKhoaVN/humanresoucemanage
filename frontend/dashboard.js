@@ -1,7 +1,36 @@
 const navLinks = document.querySelectorAll("aside nav a");
 const mainContent = document.getElementById("main_content");
 const name = document.getElementById("name");
+const editUserName = document.getElementById("editUserName");
+const lougoutBtn = document.getElementById("logoutBtn");
 
+
+editUserName.textContent = localStorage.getItem("name") ? localStorage.getItem("name")[0] : 'A'
+
+lougoutBtn.addEventListener("click", async (e) => {
+  e.preventDefault();
+
+  try {
+    const API_LOGOUT = "http://localhost:63342/index.php?url=authencation/logout";
+    const res = await fetch(API_LOGOUT,{
+    method: "POST",
+    credentials: "include"
+    });
+    const result = await res.json();
+
+    if(result.code == 200) {
+      localStorage.clear();
+      alert("Đăng xuất thành công");
+      window.location.href = "./";
+    } else {
+      alert("Lỗi đăng xuất");
+    }
+    
+  } catch (error) {
+    console.error("Xảy ra lỗi khi đăng xuất:", error);
+    alert("Lỗi kết nối!");
+  }
+});
 document.addEventListener("DOMContentLoaded", () => {
   navLinks.forEach(link => {
     link.addEventListener("click", async (e) => {

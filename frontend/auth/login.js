@@ -35,7 +35,7 @@ loginForm.addEventListener('submit', async function (e) {
 
    if (data.code === 200 && data.account) {
   localStorage.setItem("role", data.account.role);
-  localStorage.setItem("id", data.account.id);
+  localStorage.setItem("name" , data.account.username)
 
   if (["admin", "boss"].includes(data.account.role)) {
     window.location.href = "../dashboard.html";
