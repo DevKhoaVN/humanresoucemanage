@@ -52,7 +52,7 @@
   </nav>
 
   <div class=" ">
-    <button class="w-full text-red-600 text-left px-6 py-3 ">
+    <button id="logoutBtn"class="w-full text-red-600 text-left px-6 py-3 ">
       <i class="fa-solid fa-right-from-bracket mr-2"></i> Đăng xuất
     </button>
   </div>
@@ -63,19 +63,19 @@
     <main class="flex-1 overflow-y-auto">
 
       <!-- Header -->
-<div class="sticky top-0 z-10 p-4 w-full flex justify-between items-center bg-white shadow">
-    <div class="flex items-center border border-gray-300 rounded-lg px-3 py-1 w-64 focus-within:ring-2 focus-within:ring-blue-400">
+<div class="sticky top-0 z-10 p-4 w-full flex justify-end items-center bg-white shadow">
+    <!-- <div class="flex items-center border border-gray-300 rounded-lg px-3 py-1 w-64 focus-within:ring-2 focus-within:ring-blue-400">
       <i class="fa-solid fa-magnifying-glass text-gray-400 mr-2"></i>
       <input type="text" placeholder="Tìm kiếm..." class="w-full outline-none py-1">
-    </div>
-    <div class="flex items-center space-x-4">
+    </div> -->
+    <div class="flex items-center  space-x-4">
       <div class="relative">
         <button class="relative">
           <span class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full text-xs w-4 h-4 flex items-center justify-center">3</span>
           <i class="fa-solid fa-bell" ></i>
         </button>
       </div>
-      <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">A</div>
+      <div id= "editUserName" class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">A</div>
     </div>
 </div>
 

@@ -3,7 +3,11 @@ import paginateTable from "../utils/render.js";
 async function loadAccounts() {
   const API_URL_ACCOUNT = "http://localhost:63342/index.php?url=account/getAllAccounts";
   try {
-    const res = await fetch(API_URL_ACCOUNT);
+    const res = await fetch(API_URL_ACCOUNT, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include"
+    });
     const accounts = await res.json();
 
     const tbody = document.getElementById("accountTableBody");
@@ -53,6 +57,7 @@ async function deleteAccount(id) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id }),
+      credentials: "include"
     });
 
     const data = await res.json();
@@ -112,6 +117,7 @@ document.getElementById("editForm").addEventListener("submit", async (e) => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
+      credentials: "include"
     });
 
     const data = await res.json();

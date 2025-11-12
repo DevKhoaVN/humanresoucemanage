@@ -55,7 +55,7 @@ async function handleCheck(type) {
     });
 
     const result = await res.json();
-    if (result.success) {
+    if (result.code == 200) {
       alert(`${type === "check_in" ? "Check in" : "Check out"} thành công!`);
       loadAttendance();
     } else {
@@ -172,7 +172,7 @@ form.addEventListener("submit", async (e) => {
     });
 
     const result = await res.json();
-    if (result.success) {
+    if (result.code == 200) {
       alert("Cập nhật thành công!");
       modal.classList.add("hidden");
       loadAttendance();

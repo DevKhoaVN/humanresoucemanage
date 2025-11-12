@@ -54,7 +54,7 @@ class SalaryService
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         } catch (PDOException $e) {
-            die("Query failed: " . $e->getMessage());
+            throw new \Exception("Lỗi khi lấy dữ liệu salary: " . $e->getMessage());
         }
     }
 
@@ -84,7 +84,7 @@ class SalaryService
             return true;
 
         }catch (PDOException $e) {
-            die("Failed to save salary: " . $e->getMessage());
+            throw new \Exception("Lỗi khi lấy dữ liệu salary: " . $e->getMessage());
         }
     }
 
@@ -125,8 +125,7 @@ class SalaryService
 
              return $result;
         } catch (PDOException $e) {
-            echo "Error: " . $e->getMessage();
-            return [];
+            throw new \Exception("Lỗi khi lấy dữ liệu salary: " . $e->getMessage());
         }
     }
 

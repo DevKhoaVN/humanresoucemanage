@@ -6,6 +6,7 @@ require_once __DIR__ . "/../services/ReviewService.php";
 require_once __DIR__ . "/../models/Review.php";
 
 
+
 use helper\RequestHelper;
 use models\Review;
 use services\ReviewService;
@@ -23,7 +24,10 @@ class ReviewController
 
         try {
 
-            $result = $this->reviewService->getAllReviews();
+            $data = RequestHelper::getJsonBody();
+            $month = $data['month'];
+            $year = $data['year'];
+            $result = $this->reviewService->getAllReviews($month, $year);
 
             http_response_code(200);
             echo json_encode([
@@ -32,6 +36,25 @@ class ReviewController
                 'data' => $result
             ]);
         } catch (\Exception $e) {
+            http_response_code(500);
+            echo json_encode(['error : ' => $e->getMessage()]);
+        }
+    }
+    public function getAllReviewEmployeeIDOrDate()
+    {
+
+        try {
+            $data = RequestHelper::getJsonBody();
+            $date = $data['date'];
+            $employee_id = $data['employee_id'];
+            $result = $this->reviewService->getReviewByIdOrMonth($employee_id, $date);
+            http_response_code(200);
+            echo json_encode([
+                'code' => 200,
+                'message' => 'Success',
+                'data' => $result
+            ]);
+        } catch (Exception $e) {
             http_response_code(500);
             echo json_encode(['error : ' => $e->getMessage()]);
         }

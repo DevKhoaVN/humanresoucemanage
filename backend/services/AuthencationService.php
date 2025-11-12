@@ -82,10 +82,10 @@ class AuthencationService
 
         $account = new Account();
         $account->setUsername($username);
-        $account->setHashPassword(password_hash($password, PASSWORD_BCRYPT));
+        $account->setPasswordhash(password_hash($password, PASSWORD_BCRYPT));
         $account->setRole("employee");
         $account->setIsActive(true);
-        $account->getCreateAt()->format("Y-m-d");
+
         $account->save();
 
         return [
@@ -100,19 +100,17 @@ class AuthencationService
 
     public function logout()
     {
-            if (isset($_COOKIE["auth_token"])) {
-                setcookie(
-                    "auth_token",
-                    "",
-                    time() - 3600,
-                    "/",
-                    "",
-                    false,
-                    true
-                );
-            }
+        if (isset($_COOKIE["auth_token"])) {
+            setcookie("auth_token", "", [
+                'expires'  => time() - 3600,
+                'path'     => '/',
+                'secure'   => false,
+                'httponly' => true,
+                'samesite' => 'Lax'
+            ]);
+        }
 
-            return true;
+        return true;
     }
 
 

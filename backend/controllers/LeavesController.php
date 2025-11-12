@@ -24,7 +24,9 @@ class LeavesController
 
         try {
 
-            $result = $this->leavesService->getAllLeaves();
+            $data = RequestHelper::getJsonBody();
+            $date = $data['date'];
+            $result = $this->leavesService->getAllLeaves($date);
 
             http_response_code(200);
             echo json_encode([

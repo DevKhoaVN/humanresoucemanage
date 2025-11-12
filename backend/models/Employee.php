@@ -35,6 +35,8 @@ class Employee extends BaseModel
             'email' => $this->getEmail(),
             "phone" => $this->getPhone(),
             'position_id' => $this->getPositionId(),
+            "department_id" => $positon->department()->getId(),
+            "department_name" => $positon->department()->getName(),
             'create_at' => $this->getCreatedAt() ? new \DateTime($this->getCreatedAt()) : null,
             "is_active" => $this->getIsActive(),
             'position_name' => $positon ? $positon->getName() : null,
@@ -51,7 +53,7 @@ class Employee extends BaseModel
             'email' => $this->getEmail(),
             "phone" => $this->getPhone(),
             'position_id' => $this->getPositionId(),
-            'create_at' => $this->getCreateAt(),
+            'create_at' => $this->getCreatedAt(),
             "is_active" => $this->getIsActive(),
         ];
     }

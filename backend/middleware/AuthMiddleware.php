@@ -27,7 +27,6 @@ class AuthMiddleware
             // Decode token
             $payload = JWT::decode($token, new Key($_ENV['JWT_SECRET'], 'HS256'));
 
-            echo"token : ".var_dump($payload);
             if (!isset($payload->exp) || $payload->exp < time()) {
                 self::unauthorized("Token expired");
             }
