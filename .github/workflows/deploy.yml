@@ -12,8 +12,10 @@ jobs:
     steps:
       - name: 🧩 Checkout code
         uses: actions/checkout@v4
-
-      - name: 📦 Install dependencies (optional)
+        with:
+          fetch-depth: 0
+      # --- Nếu cần build Tailwind CSS ---
+      - name: "📦 Build Tailwind CSS (optional)"
         run: |
           echo "Nothing to build"
 

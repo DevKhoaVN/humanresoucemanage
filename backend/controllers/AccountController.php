@@ -2,7 +2,6 @@
 
 
 require_once __DIR__ .'/../vendor/autoload.php';
-
 require_once __DIR__ .'/../services/AccountService.php';
 require_once __DIR__ .'/../helper/RequestHelper.php';
 

@@ -8,6 +8,7 @@ const pagination = document.getElementById("pagination");
 
 async function loadDepartments() {
   const API_URL_DEPARTMENT = "http://localhost:63342/index.php?url=department/getAllDepartments"; 
+  
   try {
     const res = await fetch(API_URL_DEPARTMENT);
     const departments = await res.json();
