@@ -11,7 +11,7 @@ lougoutBtn.addEventListener("click", async (e) => {
   e.preventDefault();
 
   try {
-    const API_LOGOUT = "http://localhost:63342/index.php?url=authencation/logout";
+    const API_LOGOUT = "https://quanlinhansu.infinityfreeapp.com/api?url=authencation/logout";
     const res = await fetch(API_LOGOUT,{
     method: "POST",
     credentials: "include"

@@ -1,6 +1,6 @@
 import paginateTable from "../utils/render.js";
 
-const API_URL_SALARY = "http://localhost:63342/index.php?url=salary/gettAllSalaryInMonth";
+const API_URL_SALARY = "https://quanlinhansu.infinityfreeapp.com/api?url=salary/gettAllSalaryInMonth";
 const tbody = document.getElementById("employeeTableBody");
 const monthInput = document.getElementById("monthSelect");
 const caculateSalary = document.getElementById("caculateSalary");
@@ -16,9 +16,9 @@ monthInput.addEventListener("change", () => {
   caculateSalary.addEventListener('click' , async (e) => {
       e.preventDefault();
 
-      const API_CACULATE_SALARY = "http://localhost:63342/index.php?url=salary/saveSalary";
+      const API_CACULATE_SALARY = "https://quanlinhansu.infinityfreeapp.com/api?url=salary/saveSalary";
 
-      const res =  await fetch(API_CACULATE_SALARY)
+      const res =  await fetch(API_CACULATE_SALARY, {credentials: "include"})
       const result = await   res.json()
 
       if(result.code == 200){
@@ -33,6 +33,7 @@ async function loadSalaries() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ year , month }),
+      credentials: "include"
   });
   const salaries = await res.json();
 

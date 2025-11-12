@@ -23,7 +23,7 @@ const register = async () => {
         }
 
         const payload = {username: email, password};
-        const API_REGISTER = "http://localhost:63342/index.php?url=authencation/register";
+        const API_REGISTER = "https://quanlinhansu.infinityfreeapp.com/api?url=authencation/register";
         
         try {
             const res = await fetch(API_REGISTER, {

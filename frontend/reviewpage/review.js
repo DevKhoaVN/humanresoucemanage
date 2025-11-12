@@ -1,10 +1,10 @@
 import paginateTable from "../utils/render.js"; // import hàm phân trang bạn đã có
 
 // API endpoints
-const URL_API_CREATE = "http://localhost:63342/index.php?url=review/createReview";
-const URL_API_ALL = "http://localhost:63342/index.php?url=review/getAllReviews";
-const URL_API_EMPLOYEE_DATE = "http://localhost:63342/index.php?url=review/getAllReviewEmployeeIDOrDate";
-const URL_API_DELETE = "http://localhost:63342/index.php?url=review/deleteReview";
+const URL_API_CREATE = "https://quanlinhansu.infinityfreeapp.com/api?url=review/createReview";
+const URL_API_ALL = "https://quanlinhansu.infinityfreeapp.com/api?url=review/getAllReviews";
+const URL_API_EMPLOYEE_DATE = "https://quanlinhansu.infinityfreeapp.com/api?url=review/getAllReviewEmployeeIDOrDate";
+const URL_API_DELETE = "https://quanlinhansu.infinityfreeapp.com/api?url=review/deleteReview";
 
 // Elements
 const tbody = document.getElementById("employeeTableBody");
@@ -44,12 +44,14 @@ async function loadReview() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ month , year }),
+        credentials: "include"
       });
     } else {
       res = await fetch(URL_API_EMPLOYEE_DATE, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ date, employee_id }),
+         credentials: "include"
       });
     }
 
@@ -109,7 +111,8 @@ async function handleDelete(id) {
     const res = await fetch(URL_API_DELETE, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: parseInt(id) })
+      body: JSON.stringify({ id: parseInt(id) }),
+       credentials: "include"
     });
 
     const result = await res.json();
@@ -173,6 +176,7 @@ form.addEventListener("submit", async (e) => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({  id: id ? parseInt(id) : null, employee_id, content }),
+       credentials: "include"
     });
 
     const result = await res.json();

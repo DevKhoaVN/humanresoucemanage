@@ -1,10 +1,10 @@
 import paginateTable from "../utils/render.js"; // import hàm phân trang bạn đã có
 
 // API endpoints
-const API_CHECK_OUT = "http://localhost:63342/index.php?url=attendance/checkOut";
-const API_CHECK_IN = "http://localhost:63342/index.php?url=attendance/checkIn";
-const API_FIND_CODE_DATE = "http://localhost:63342/index.php?url=attendance/findAttendanceById";
-const API_FIND_DATE = "http://localhost:63342/index.php?url=attendance/getAllAttendances";
+const API_CHECK_OUT = "https://quanlinhansu.infinityfreeapp.com/api?url=attendance/checkOut";
+const API_CHECK_IN = "https://quanlinhansu.infinityfreeapp.com/api?url=attendance/checkIn";
+const API_FIND_CODE_DATE = "https://quanlinhansu.infinityfreeapp.com/api?url=attendance/findAttendanceById";
+const API_FIND_DATE = "https://quanlinhansu.infinityfreeapp.com/api?url=attendance/getAllAttendances";
 
 // Elements
 const tbody = document.getElementById("employeeTableBody");
@@ -52,6 +52,7 @@ async function handleCheck(type) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
+      credentials: "include"
     });
 
     const result = await res.json();
@@ -81,6 +82,7 @@ async function loadAttendance() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ work_date }),
+        credentials: "include"
       });
     } else {
       console.log("run o day 2");
@@ -88,6 +90,7 @@ async function loadAttendance() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ work_date, employee_id }),
+        credentials: "include"
       });
     }
 
@@ -169,6 +172,7 @@ form.addEventListener("submit", async (e) => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id, check_in, check_out, note }),
+      credentials: "include"
     });
 
     const result = await res.json();

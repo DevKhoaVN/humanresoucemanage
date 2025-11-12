@@ -9,10 +9,10 @@ class INITDB
     private static ?INITDB $instance = null;
     private ?PDO $conn = null;
 
-    private string $host = 'mysql';
-    private string $dbName = 'humanresource';
-    private string $username = 'user';
-    private string $password = '123456';
+    private string $host = 'sql302.infinityfree.com';
+    private string $dbName = 'if0_40346243_hmrs';
+    private string $username = 'if0_40346243';
+    private string $password = 'ZynCO1OqzuFBV';
     private int $port = 3306;
 
     private function __construct()
