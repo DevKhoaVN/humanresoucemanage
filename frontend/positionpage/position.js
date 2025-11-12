@@ -8,17 +8,17 @@ const addBtn = document.getElementById("addPositiontBtn");
 const pagination = document.getElementById("pagination");
 
 // API endpoints
-const API_URL_POSITION = "http://localhost:63342/index.php?url=position/getAllPositions"; 
-const API_URL_DEPARTMENT = "http://localhost:63342/index.php?url=department/getAllDepartments";
-const API_URL_CREATE = "http://localhost:63342/index.php?url=position/createPostion";
-const API_URL_DELETE = "http://localhost:63342/index.php?url=position/deletePostion";
+const API_URL_POSITION = "https://quanlinhansu.infinityfreeapp.com/api?url=position/getAllPositions"; 
+const API_URL_DEPARTMENT = "https://quanlinhansu.infinityfreeapp.com/api?url=department/getAllDepartments";
+const API_URL_CREATE = "https://quanlinhansu.infinityfreeapp.com/api?url=position/createPostion";
+const API_URL_DELETE = "https://quanlinhansu.infinityfreeapp.com/api?url=position/deletePostion";
 
 
 async function loadDepartments() {
   try {
     const [resPosition, resDepartment] = await Promise.all([
-      fetch(API_URL_POSITION),
-      fetch(API_URL_DEPARTMENT)
+      fetch(API_URL_POSITION,{credentials: "include"}),
+      fetch(API_URL_DEPARTMENT,{credentials: "include"})
     ]);
 
     const [positions, departments] = await Promise.all([
@@ -114,7 +114,8 @@ async function handleDelete(id) {
     const res = await fetch(API_URL_DELETE, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: parseInt(id) })
+      body: JSON.stringify({ id: parseInt(id) }),
+      credentials: "include"
     });
     const data = await res.json();
     alert(data.message || "Đã xóa thành công!");
@@ -165,7 +166,8 @@ form.addEventListener("submit", async (e) => {
     const res = await fetch(API_URL_CREATE, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
+      credentials: "include"
     });
 
     const data = await res.json();

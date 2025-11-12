@@ -1,7 +1,7 @@
 import paginateTable from "../utils/render.js";
 
 async function loadAccounts() {
-  const API_URL_ACCOUNT = "http://localhost:63342/index.php?url=account/getAllAccounts";
+  const API_URL_ACCOUNT = "https://quanlinhansu.infinityfreeapp.com/api?url=account/getAllAccounts";
   try {
     const res = await fetch(API_URL_ACCOUNT, {
       method: "GET",
@@ -49,7 +49,7 @@ async function loadAccounts() {
 }
 
 async function deleteAccount(id) {
-  const API_DELETE = "http://localhost:63342/index.php?url=account/deleteAccountById";
+  const API_DELETE = "https://quanlinhansu.infinityfreeapp.com/api?url=account/deleteAccountById";
   if (!confirm("Bạn có chắc chắn muốn xóa tài khoản này?")) return;
 
   try {
@@ -113,7 +113,7 @@ document.getElementById("editForm").addEventListener("submit", async (e) => {
 
   console.log("payload " ,payload)
   try {
-    const res = await fetch("http://localhost:63342/index.php?url=account/updateAccount", {
+    const res = await fetch("https://quanlinhansu.infinityfreeapp.com/api?url=account/updateAccount", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),

@@ -7,10 +7,14 @@ const tbody = document.getElementById("employeeTableBody");
 const pagination = document.getElementById("pagination");
 
 async function loadDepartments() {
-  const API_URL_DEPARTMENT = "http://localhost:63342/index.php?url=department/getAllDepartments"; 
-  
+  const API_URL_DEPARTMENT = "https://quanlinhansu.infinityfreeapp.com/api?url=department/getAllDepartments"; 
+
   try {
-    const res = await fetch(API_URL_DEPARTMENT);
+    const res = await fetch(API_URL_DEPARTMENT,{
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include"
+    });
     const departments = await res.json();
 
     console.log("departments:", departments);
@@ -62,7 +66,7 @@ tbody.addEventListener("click", (e) => {
 });
 // Hàm xóa bộ phận
 async function deleteDepartment(id) {
-  const API_DELETE = "http://localhost:63342/index.php?url=department/deleteDepartment";
+  const API_DELETE = "https://quanlinhansu.infinityfreeapp.com/api?url=department/deleteDepartment";
   if (!confirm("Bạn có chắc chắn muốn xóa bộ phận này?")) return;
 
   try {
@@ -70,6 +74,7 @@ async function deleteDepartment(id) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id }),
+      credentials: "include"
     });
 
     const data = await res.json();
@@ -111,11 +116,12 @@ form.addEventListener("submit", async (e) => {
   if (!name) return alert("Tên bộ phận không được để trống!");
 
   try {
-    const API_DEPARTMENT_UPDATDE = "http://localhost:63342/index.php?url=department/updateDepartment";
+    const API_DEPARTMENT_UPDATDE = "https://quanlinhansu.infinityfreeapp.com/api?url=department/updateDepartment";
     const res = await fetch(API_DEPARTMENT_UPDATDE, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, description, status })
+      body: JSON.stringify({ name, description, status }),
+      credentials: "include"
     });
 
     const data = await res.json();

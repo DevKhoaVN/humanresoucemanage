@@ -6,7 +6,7 @@ const tbody = document.getElementById("employeeTableBody");
 const searchBtn = document.getElementById("btnSearchEmployee")
 const codeInput = document.getElementById("searchEmployee")
 async function loadEmployees() {
-    const API_URL_ACCOUNT = "http://localhost:63342/index.php?url=employee/getAllEmployee";
+    const API_URL_ACCOUNT = "https://quanlinhansu.infinityfreeapp.com/api?url=employee/getAllEmployee";
     try {
       const res = await fetch(API_URL_ACCOUNT);
        const employees = await res.json();
@@ -61,10 +61,10 @@ searchBtn.addEventListener("click" ,async (e) => {
   let API = "";
   let payload = {}
   if (/^\d+$/.test(codeEmployee)) {
-  API = "http://localhost:63342/index.php?url=employee/getEmployeeById";
+  API = "https://quanlinhansu.infinityfreeapp.com/api?url=employee/getEmployeeById";
   payload.id = parseInt(codeEmployee);
  } else {
-  API = "http://localhost:63342/index.php?url=employee/searchEmployee";
+  API = "https://quanlinhansu.infinityfreeapp.com/api?url=employee/searchEmployee";
   payload.searchTemp = codeEmployee;
   }
 
@@ -160,11 +160,12 @@ editForm.addEventListener("submit", async (e) => {
   console.log("pyload : " , payload);
 
   try {
-    const API_UPDATE = "http://localhost:63342/index.php?url=employee/createEmployee";
+    const API_UPDATE = "https://quanlinhansu.infinityfreeapp.com/api?url=employee/createEmployee";
     const res = await fetch(API_UPDATE, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
+      credentials: "include"
     });
     const data = await res.json();
     if (data.code == 200) {
@@ -200,14 +201,15 @@ cancelEdit.addEventListener("click", () => {
 });
 
 async function handleDelete(id) {
-  const API_DELETE = "http://localhost:63342/index.php?url=employee/deleteEmployee";
+  const API_DELETE = "https://quanlinhansu.infinityfreeapp.com/api?url=employee/deleteEmployee";
   if (!confirm("Bạn có chắc chắn muốn xóa nhân viên này?")) return;
 
   try {
     const res = await fetch(API_DELETE, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: parseInt(id) })
+      body: JSON.stringify({ id: parseInt(id) }),
+      credentials: "include"
     });
     const data = await res.json();
     if(data.code == 200){
@@ -221,13 +223,13 @@ async function handleDelete(id) {
 }
 
 async function loadDepartmentsAndPositions() {
-  const API_DEPARTMENTS = "http://localhost:63342/index.php?url=department/getAllDepartments";
-  const API_POSITIONS = "http://localhost:63342/index.php?url=position/getAllPositions";
+  const API_DEPARTMENTS = "https://quanlinhansu.infinityfreeapp.com/api?url=department/getAllDepartments";
+  const API_POSITIONS = "https://quanlinhansu.infinityfreeapp.com/api?url=position/getAllPositions";
 
   try {
     const [resDepartments, resPositions] = await Promise.all([
-      fetch(API_DEPARTMENTS),
-      fetch(API_POSITIONS)
+    fetch(API_DEPARTMENTS, { credentials: "include" }),
+    fetch(API_POSITIONS, { credentials: "include" })
     ]);
 
     const [departmentsData, positionsData] = await Promise.all([

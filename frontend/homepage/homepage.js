@@ -1,13 +1,13 @@
 import paginateTable from "../utils/render.js";
 async function loadEmployees() {
-  const API_URL_EMPLOYEES = "http://localhost:63342/index.php?url=home/getEmployeesDashboard";
-  const API_URL_DASHBOARD = "http://localhost:63342/index.php?url=home/getInforDashboard";
+  const API_URL_EMPLOYEES = "https://quanlinhansu.infinityfreeapp.com/api?url=home/getEmployeesDashboard";
+  const API_URL_DASHBOARD = "https://quanlinhansu.infinityfreeapp.com/api?url=home/getInforDashboard";
 
   try {
     // ---fetch song song ---
     const [employeeRes, dashboardRes] = await Promise.all([
-      fetch(API_URL_EMPLOYEES),
-      fetch(API_URL_DASHBOARD)
+      fetch(API_URL_EMPLOYEES , {credentials: "include"}),
+      fetch(API_URL_DASHBOARD, {credentials: "include"})
     ]);
 
     // ---pasre sang json ---

@@ -11,7 +11,7 @@ dateInputBtn.value = defaultMonth;
 dateInputBtn.addEventListener("change", loadLeaves);
 
 async function loadLeaves() {
-  const API_URL_ALL = "http://localhost:63342/index.php?url=leaves/getAllLeaves";
+  const API_URL_ALL = "https://quanlinhansu.infinityfreeapp.com/api?url=leaves/getAllLeaves";
   const date = dateInputBtn.value; // "YYYY-MM--DD"
   
   try {
@@ -19,6 +19,7 @@ async function loadLeaves() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ date }),
+      credentials: "include"
     });
     const leaves = await res.json();
 
@@ -71,11 +72,12 @@ approvedBtn.addEventListener("click", async (e) => {
   if (!confirmApprove) return;
 
   try {
-    const API_URL_APPROVE = "http://localhost:63342/index.php?url=leaves/createLeaves";
+    const API_URL_APPROVE = "https://quanlinhansu.infinityfreeapp.com/api?url=leaves/createLeaves";
     const res = await fetch(API_URL_APPROVE, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: parseInt(id) , status: 1})
+      body: JSON.stringify({ id: parseInt(id) , status: 1}),
+      credentials: "include"
     });
 
     const result = await res.json();
