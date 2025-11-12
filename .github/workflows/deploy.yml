@@ -14,7 +14,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
       # --- Nếu cần build Tailwind CSS ---
       - name: "📦 Build Tailwind CSS (optional)"
         run: |
