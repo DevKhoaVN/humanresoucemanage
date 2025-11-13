@@ -45,7 +45,6 @@ loginForm.addEventListener('submit', async function (e) {
   errorMsg.classList.remove("hidden");
 }
 
-
   } catch (err) {
     console.error('Login failed:', err);
     errorMsg.textContent = "Server error, please try again!";
