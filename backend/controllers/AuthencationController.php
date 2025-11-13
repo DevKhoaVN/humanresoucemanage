@@ -42,7 +42,6 @@ class AuthencationController
 
     }
 
-
    public function  register()
    {
 
